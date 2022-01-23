@@ -88,26 +88,30 @@ uint8_t USBPutChar(uint8_t c);
 // to the persistent key report and sends the report.  Because of the way
 // USB HID works, the host acts like the key remains pressed until we
 // call release(), releaseAll(), or otherwise clear the report and resend.
-size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl)
-{
+size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl) {
     uint8_t i;
-    k = pgm_read_byte(_asciimap + k);
-    if (!k) {
-        setWriteError();
-        return 0;
-    }
+    if (k >= 136) {
+        // it's a non-printing key (not a modifier)
+        k = k - 136;
+    } else {
+        k = pgm_read_byte(_asciimap + k);
 
-    /*
-    if ((k & ALT_GR) == ALT_GR) {
-        _keyReport.modifiers |= 0x40;   // AltGr = right Alt
-        k &= 0x3F;
-    }
-    */
-    if (shift) {
-        _keyReport.modifiers |= 0x02;    // the left shift modifier
-    }
-    if (k == ISO_REPLACEMENT) {
-        k = ISO_KEY;
+        if (!k) {
+            setWriteError();
+            return 0;
+        }
+        if (shift) {
+            _keyReport.modifiers |= 0x02;    // the left shift modifier
+        }
+        if (k == ISO_REPLACEMENT) {
+            k = ISO_KEY;
+        }
+        /*
+        if ((k & ALT_GR) == ALT_GR) {
+            _keyReport.modifiers |= 0x40;   // AltGr = right Alt
+            k &= 0x3F;
+        }
+        */
     }
 
 	// Add k to the key report only if it's not already present
