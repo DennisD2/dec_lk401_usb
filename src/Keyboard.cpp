@@ -90,32 +90,25 @@ uint8_t USBPutChar(uint8_t c);
 // call release(), releaseAll(), or otherwise clear the report and resend.
 size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl)
 {
-	uint8_t i;
-	//if (k >= 136) {			// it's a non-printing key (not a modifier)
-	//	k = k - 136;
-	//} else if (k >= 128) {	// it's a modifier key
-	//	_keyReport.modifiers |= (1<<(k-128));
-	//	k = 0;
-	//} else {				// it's a printing key
-		k = pgm_read_byte(_asciimap + k);
-		if (!k) {
-			setWriteError();
-			return 0;
-		}
+    uint8_t i;
+    k = pgm_read_byte(_asciimap + k);
+    if (!k) {
+        setWriteError();
+        return 0;
+    }
 
-        /*
-		if ((k & ALT_GR) == ALT_GR) {
-			_keyReport.modifiers |= 0x40;   // AltGr = right Alt
-			k &= 0x3F;
-		} else if ((k & SHIFT) == SHIFT) {
-			_keyReport.modifiers |= 0x02;	// the left shift modifier
-			k &= 0x7F;
-		}
-        */
-		if (k == ISO_REPLACEMENT) {
-			k = ISO_KEY;
-		}
-	//}
+    /*
+    if ((k & ALT_GR) == ALT_GR) {
+        _keyReport.modifiers |= 0x40;   // AltGr = right Alt
+        k &= 0x3F;
+    }
+    */
+    if (shift) {
+        _keyReport.modifiers |= 0x02;    // the left shift modifier
+    }
+    if (k == ISO_REPLACEMENT) {
+        k = ISO_KEY;
+    }
 
 	// Add k to the key report only if it's not already present
 	// and if there is an empty slot.
