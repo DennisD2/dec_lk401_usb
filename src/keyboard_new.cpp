@@ -61,7 +61,7 @@ void setup() {
     delay(100);
 
     // set up k,s,c tables. Index is keycode from LK401. Value is char to send to USB
-
+    // characters
     k[0xc2] = 'a';
     k[0xd9] = 'b';
     k[0xce] = 'c';
@@ -88,7 +88,7 @@ void setup() {
     k[0xc8] = 'x';
     k[0xc3] = 'y';
     k[0xdc] = 'z';
-
+    // numbers
     k[0xc0] = '1';
     k[0xc5] = '2';
     k[0xcb] = '3';
@@ -99,36 +99,23 @@ void setup() {
     k[0xe5] = '8';
     k[0xea] = '9';
     k[0xef] = '0';
-
-    k[0xfa] = 125;
-    s[0xfa] = 126; // german kbd: ü/Ü
-    k[0xfb] = 91;
-    s[0xfb] = 93; // german kbd: ä/Ä
-    k[0xf9] = 127;
-    s[0xf9] = '?';// german kbd: ß/?
-    k[0xf2] = 123;
-    s[0xf2] = 124; // german kbd: ö/Ö
-
+    // umlauts
+    k[0xfa] = 125; // ü
+    k[0xfb] = 91;  // ä
+    k[0xf9] = 127; // ß
+    k[0xf2] = 123; // ö
+    // other character keys
     k[0xe8] = ',';
-    s[0xe8] = ';';
     k[0xed] = '.';
-    s[0xed] = ':';
     k[0xc9] = '<';
-    s[0xc9] = '>';
     k[0xd4] = ' ';
-    s[0xd4] = ' ';
     k[0xf3] = '-';
-    s[0xf3] = '_'; // german kbd: -/_
     k[0xf6] = '+';
-    s[0xf6] = '*';  // german kbd: +/*
     k[0xf7] = '#';
-    s[0xf7] = '\''; // german kbd: #/'
 
     k[0xf5] = 64;
-    s[0xf5] = 96; // german kbd: ´/`
-
     k[0xbf] = '^';
-    s[0xbf] = 126; // ^/°
+    //s[0xbf] = 126; // ^/°
 
     // Arrow keys
     k[0xa8] = KEY_RIGHT_ARROW;
@@ -136,11 +123,13 @@ void setup() {
     k[0xa9] = KEY_DOWN_ARROW;
     k[0xaa] = KEY_UP_ARROW;
 
+    // Function keys
     k[0xb1] = 39; // Gruppenumschaltung
     k[0xbc] = KEY_BACKSPACE; // Backspace, 0x08 also works
     k[0xbd] = KEY_RETURN; // // CR, 0xa also works
     k[0xbe] = KEY_TAB; // TAB, 0x9
 
+    // FunctionKey keys
     k[0x56] = KEY_F1; // F1
     k[0x57] = KEY_F2; // F2
     k[0x58] = KEY_F3; // F3
@@ -163,6 +152,7 @@ void setup() {
     k[0x7c] = 0xed; // Hilfe, mapped to KEY_MENU
     k[0x7d] = KEY_ESC; // 0x1b; // Ausführen, mapped to missing ESC key
 
+    // Editing keys
     k[0x8a] = KEY_HOME; // Suchen, mapped to KEY_HOME
     k[0x8b] = KEY_INSERT; // Einfügen
     k[0x8c] = KEY_DELETE; // Löschen
@@ -170,7 +160,7 @@ void setup() {
     k[0x8e] = KEY_PAGE_UP; // Page Up
     k[0x8f] = KEY_PAGE_DOWN; // Page Down
 
-    // numeric pad
+    // Numeric pad
     k[0xa1] = 39; // PF1
     k[0xa2] = 39; // PF2
     k[0xa3] = 39; // PF3
