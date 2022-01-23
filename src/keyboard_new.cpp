@@ -60,7 +60,7 @@ void setup() {
     Serial.println("DEC LK401 to USB");
     delay(100);
 
-    // set up k,s,c tables. Index is keycode from LK401. Value is char to send to USB
+    // set up k table. Index is keycode from LK401. Value is char to use
     // characters
     k[0xc2] = 'a';
     k[0xd9] = 'b';
@@ -112,10 +112,9 @@ void setup() {
     k[0xf3] = '-';
     k[0xf6] = '+';
     k[0xf7] = '#';
+    k[0xf5] = 64; // ´/`
 
-    k[0xf5] = 64;
     k[0xbf] = '^';
-    //s[0xbf] = 126; // ^/°
 
     // Arrow keys
     k[0xa8] = KEY_RIGHT_ARROW;
