@@ -118,6 +118,7 @@ extern const uint8_t KeyboardLayout_fr_FR[];
 extern const uint8_t KeyboardLayout_it_IT[];
 extern const uint8_t KeyboardLayout_sv_SE[];
 extern const uint8_t KeyboardLayout_da_DK[];
+extern const uint8_t KeyboardLayout_dec_lk401_AG[];
 
 // Low level key report: up to 6 keys and shift, ctrl etc at once
 typedef struct
@@ -139,7 +140,7 @@ public:
   void end(void);
   size_t write(uint8_t k);
   size_t write(const uint8_t *buffer, size_t size);
-  size_t press(uint8_t k);
+  size_t press(uint8_t k, uint8_t shift, uint8_t ctrl);
   size_t release(uint8_t k);
   void releaseAll(void);
 };
