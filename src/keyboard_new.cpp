@@ -249,7 +249,7 @@ void loop() {
             break;
 
         default:
-            outCode = inCode;
+            outCode = k[inCode];
             lastCode = outCode;
             break;
     }
