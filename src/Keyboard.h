@@ -111,7 +111,6 @@
 #define KEY_F24           0xFB
 
 // Supported keyboard layouts
-extern const uint8_t KeyboardLayout_en_US[];
 extern const uint8_t KeyboardLayout_dec_lk401_AG[];
 
 // Low level key report: up to 6 keys and shift, ctrl etc at once
@@ -130,7 +129,7 @@ private:
   void sendReport(KeyReport* keys);
 public:
   Keyboard_(void);
-  void begin(const uint8_t *layout = KeyboardLayout_en_US);
+  void begin(const uint8_t *layout = KeyboardLayout_dec_lk401_AG);
   void end(void);
   size_t write(uint8_t k);
   size_t write(const uint8_t *buffer, size_t size);
