@@ -35,8 +35,8 @@ unsigned char convertCode(unsigned char inCode);
 #define LK401_CMD_KEY_CLICK_ON 0x1b
 #define LK401_CMD_KEY_CLICK_OFF 0x99
 
-// keycodes to send, unshifted, shifted and with CTRL
-unsigned char k[256], s[256], c[256];
+// keycodes to send
+unsigned char k[256];
 
 /* state variables */
 boolean shift = false; /* Shift key is pressed */
@@ -62,60 +62,73 @@ void setup() {
 
     // set up k,s,c tables. Index is keycode from LK401. Value is char to send to USB
 
-    k[0xc2] = 'a'; s[0xc2] = 'a';
-    k[0xd9] = 'b'; s[0xd9] = 'b';
-    k[0xce] = 'c'; s[0xce] = 'c';
-    k[0xcd] = 'd'; s[0xcd] = 'd';
-    k[0xcc] = 'e'; s[0xcc] = 'e';
-    k[0xd2] = 'f'; s[0xd2] = 'f';
-    k[0xd8] = 'g'; s[0xd8] = 'g';
-    k[0xdd] = 'h'; s[0xdd] = 'h';
-    k[0xe6] = 'i'; s[0xe6] = 'i';
-    k[0xe2] = 'j'; s[0xe2] = 'j';
-    k[0xe7] = 'k'; s[0xe7] = 'k';
-    k[0xec] = 'l'; s[0xec] = 'l';
-    k[0xe3] = 'm'; s[0xe3] = 'm';
-    k[0xde] = 'n'; s[0xde] = 'n';
-    k[0xeb] = 'o'; s[0xeb] = 'o';
-    k[0xf0] = 'p'; s[0xf0] = 'p';
-    k[0xc1] = 'q'; s[0xc1] = 'q';
-    k[0xd1] = 'r'; s[0xd1] = 'r';
-    k[0xc7] = 's'; s[0xc7] = 's';
-    k[0xd7] = 't'; s[0xd7] = 't';
-    k[0xe1] = 'u'; s[0xe1] = 'u';
-    k[0xd3] = 'v'; s[0xd3] = 'v';
-    k[0xc6] = 'w'; s[0xc6] = 'w';
-    k[0xc8] = 'x'; s[0xc8] = 'x';
-    k[0xc3] = 'y'; s[0xc3] = 'y';
-    k[0xdc] = 'z'; s[0xdc] = 'z';
+    k[0xc2] = 'a';
+    k[0xd9] = 'b';
+    k[0xce] = 'c';
+    k[0xcd] = 'd';
+    k[0xcc] = 'e';
+    k[0xd2] = 'f';
+    k[0xd8] = 'g';
+    k[0xdd] = 'h';
+    k[0xe6] = 'i';
+    k[0xe2] = 'j';
+    k[0xe7] = 'k';
+    k[0xec] = 'l';
+    k[0xe3] = 'm';
+    k[0xde] = 'n';
+    k[0xeb] = 'o';
+    k[0xf0] = 'p';
+    k[0xc1] = 'q';
+    k[0xd1] = 'r';
+    k[0xc7] = 's';
+    k[0xd7] = 't';
+    k[0xe1] = 'u';
+    k[0xd3] = 'v';
+    k[0xc6] = 'w';
+    k[0xc8] = 'x';
+    k[0xc3] = 'y';
+    k[0xdc] = 'z';
 
-    k[0xc0] = '1'; s[0xc0] = '!';
-    k[0xc5] = '2'; s[0xc5] = '"';
-    k[0xcb] = '3'; s[0xcb] = 35; // wrong: expected §, got #
-    k[0xd0] = '4'; s[0xd0] = '$';
-    k[0xd6] = '5'; s[0xd6] = '%';
-    k[0xdb] = '6'; s[0xdb] = '&';
-    k[0xe0] = '7'; s[0xe0] = '/';
-    k[0xe5] = '8'; s[0xe5] = '(';
-    k[0xea] = '9'; s[0xea] = ')';
-    k[0xef] = '0'; s[0xef] = '=';
+    k[0xc0] = '1';
+    k[0xc5] = '2';
+    k[0xcb] = '3';
+    k[0xd0] = '4';
+    k[0xd6] = '5';
+    k[0xdb] = '6';
+    k[0xe0] = '7';
+    k[0xe5] = '8';
+    k[0xea] = '9';
+    k[0xef] = '0';
 
-    k[0xfa] = 125; s[0xfa] = 126; // german kbd: ü/Ü
-    k[0xfb] = 91; s[0xfb] = 93; // german kbd: ä/Ä
-    k[0xf9] = 127; s[0xf9] = '?';// german kbd: ß/?
-    k[0xf2] = 123; s[0xf2] = 124; // german kbd: ö/Ö
+    k[0xfa] = 125;
+    s[0xfa] = 126; // german kbd: ü/Ü
+    k[0xfb] = 91;
+    s[0xfb] = 93; // german kbd: ä/Ä
+    k[0xf9] = 127;
+    s[0xf9] = '?';// german kbd: ß/?
+    k[0xf2] = 123;
+    s[0xf2] = 124; // german kbd: ö/Ö
 
-    k[0xe8] = ','; s[0xe8] = ';';
-    k[0xed] = '.'; s[0xed] = ':';
-    k[0xc9] = '<'; s[0xc9] = '>';
-    k[0xd4] = ' '; s[0xd4] = ' ';
-    k[0xf3] = '-'; s[0xf3] = '_'; // german kbd: -/_
-    k[0xf6] = '+'; s[0xf6] = '*';  // german kbd: +/*
-    k[0xf7] = '#'; s[0xf7] = '\''; // german kbd: #/'
+    k[0xe8] = ',';
+    s[0xe8] = ';';
+    k[0xed] = '.';
+    s[0xed] = ':';
+    k[0xc9] = '<';
+    s[0xc9] = '>';
+    k[0xd4] = ' ';
+    s[0xd4] = ' ';
+    k[0xf3] = '-';
+    s[0xf3] = '_'; // german kbd: -/_
+    k[0xf6] = '+';
+    s[0xf6] = '*';  // german kbd: +/*
+    k[0xf7] = '#';
+    s[0xf7] = '\''; // german kbd: #/'
 
-    k[0xf5] = 64; s[0xf5] = 96; // german kbd: ´/`
+    k[0xf5] = 64;
+    s[0xf5] = 96; // german kbd: ´/`
 
-    k[0xbf] = '^'; s[0xbf] = 126; // ^/°
+    k[0xbf] = '^';
+    s[0xbf] = 126; // ^/°
 
     // Arrow keys
     k[0xa8] = KEY_RIGHT_ARROW;
@@ -177,80 +190,80 @@ void setup() {
     k[0x92] = '0'; // 0
     k[0x94] = '.'; // .
 
-  // Switch Shift LED off
-  Serial1.write(LK401_CMD_LED_OFF);
-  Serial1.write(0x80|LK401_LED_SHIFT);
+    // Switch Shift LED off
+    Serial1.write(LK401_CMD_LED_OFF);
+    Serial1.write(0x80 | LK401_LED_SHIFT);
 }
 
 void loop() {
-  unsigned char inCode, outCode=0;
-  boolean doSend = true;
+    unsigned char inCode, outCode = 0;
+    boolean doSend = true;
 
-  if (Serial1.available() <= 0) {
-    return;
-  }
-  inCode = Serial1.read();
+    if (Serial1.available() <= 0) {
+        return;
+    }
+    inCode = Serial1.read();
 
-  switch (inCode) {
-    case LK401_CODE_METRONOME:
-      // 'metronom code' - last key is continuously pressed
-      // we just resend last keycode
-      outCode = lastCode;
-      break;
+    switch (inCode) {
+        case LK401_CODE_METRONOME:
+            // 'metronom code' - last key is continuously pressed
+            // we just resend last keycode
+            outCode = lastCode;
+            break;
 
-    case LK401_CODE_SHIFT:
-      // shift key is pressed
-      shift=true;
-      doSend=false;
-      break;
-    case LK401_CODE_CTRL:
-      // CTRL key is pressed
-      ctrl=true;
-      doSend=false;
-      break;
-    case LK401_CODE_ALL_UPS:
-      // shift and/or CTRL key is released
-      shift=false;
-      ctrl=false;
-      doSend=false;
-      break;
+        case LK401_CODE_SHIFT:
+            // shift key is pressed
+            shift = true;
+            doSend = false;
+            break;
+        case LK401_CODE_CTRL:
+            // CTRL key is pressed
+            ctrl = true;
+            doSend = false;
+            break;
+        case LK401_CODE_ALL_UPS:
+            // shift and/or CTRL key is released
+            shift = false;
+            ctrl = false;
+            doSend = false;
+            break;
 
-    case LK401_CODE_GRUPPENUMSCH:
-      // emulate ALT key
-      altEmulation= !altEmulation;
-      doSend=false;
-      break;
+        case LK401_CODE_GRUPPENUMSCH:
+            // emulate ALT key
+            altEmulation = !altEmulation;
+            doSend = false;
+            break;
 
-    case LK401_CODE_SHIFT_HOLD:
-      // shift hold key is pressed
-      shift_hold = !shift_hold;
-      doSend=false;
-      if (shift_hold) {
-        Serial1.write(LK401_CMD_LED_ON);
-      } else {
-        Serial1.write(LK401_CMD_LED_OFF);
-      }
-      Serial1.write(0x80|LK401_LED_SHIFT);
-      break;
+        case LK401_CODE_SHIFT_HOLD:
+            // shift hold key is pressed
+            shift_hold = !shift_hold;
+            doSend = false;
+            if (shift_hold) {
+                Serial1.write(LK401_CMD_LED_ON);
+            } else {
+                Serial1.write(LK401_CMD_LED_OFF);
+            }
+            Serial1.write(0x80 | LK401_LED_SHIFT);
+            break;
 
-    case LK401_CODE_F20:
-      // we use F20 to control keyboard click audio level
-      if (key_click_volume == 0) {
-        Serial1.write(LK401_CMD_KEY_CLICK_OFF);
-      } else {
-        Serial1.write(LK401_CMD_KEY_CLICK_ON);
-        Serial1.write(0x80|key_click_volume);
-      }
-      if (++key_click_volume == 8) {
-        key_click_volume = 0;
-      }
-      break;
+        case LK401_CODE_F20:
+            // we use F20 to control keyboard click audio level
+            if (key_click_volume == 0) {
+                Serial1.write(LK401_CMD_KEY_CLICK_OFF);
+            } else {
+                Serial1.write(LK401_CMD_KEY_CLICK_ON);
+                Serial1.write(0x80 | key_click_volume);
+            }
+            if (++key_click_volume == 8) {
+                key_click_volume = 0;
+            }
+            break;
 
-    default:
-      outCode = convertCode(inCode);
-      lastCode = outCode;
-      break;
-  }
+        default:
+            outCode = convertCode(inCode);
+            lastCode = outCode;
+            break;
+    }
 
 /*
   outCode = ++testCode;
@@ -258,21 +271,18 @@ void loop() {
     testCode++;
 */
 
-  Serial.print("LK401: ");
-  Serial.print(inCode, HEX);
-  Serial.print(", sending: ");
-  Serial.println(outCode);
+    Serial.print("LK401: ");
+    Serial.print(inCode, HEX);
+    Serial.print(", sending: ");
+    Serial.println(outCode);
 
-  if (doSend == true) {
-    Keyboard.press(outCode, shift|shift_hold, ctrl);
-    delay(20);
-    Keyboard.releaseAll();
-  }
+    if (doSend == true) {
+        Keyboard.press(outCode, shift | shift_hold, ctrl);
+        delay(20);
+        Keyboard.releaseAll();
+    }
 }
 
 unsigned char convertCode(unsigned char inCode) {
-  if (ctrl) {
-    return c[inCode];
-  }
-  return k[inCode];
+    return k[inCode];
 }
