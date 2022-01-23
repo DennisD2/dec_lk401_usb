@@ -103,15 +103,14 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl) {
         if (shift) {
             _keyReport.modifiers |= 0x02;    // the left shift modifier
         }
+        //if ((k & ALT_GR) == ALT_GR) {
+        //    _keyReport.modifiers |= 0x40;   // AltGr = right Alt
+        //}
         if (k == ISO_REPLACEMENT) {
             k = ISO_KEY;
         }
-        /*
-        if ((k & ALT_GR) == ALT_GR) {
-            _keyReport.modifiers |= 0x40;   // AltGr = right Alt
-            k &= 0x3F;
-        }
-        */
+
+
     }
 
 	// Add k to the key report only if it's not already present
