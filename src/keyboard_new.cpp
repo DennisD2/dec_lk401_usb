@@ -8,7 +8,7 @@
  * to the host computer like any other USB keyboard.
  * 
  * Open issues:
- * * §,^,° character not usable
+ * * ^,° character not usable
  * * CTRL-codes mostly not working
  * * Code was written for a german layout keyboard, needs to be reworked for other languages
  * 
@@ -264,16 +264,13 @@ void loop() {
   Serial.println(outCode);
 
   if (doSend == true) {
-    Keyboard.press(outCode, shift, ctrl);
+    Keyboard.press(outCode, shift|shift_hold, ctrl);
     delay(20);
     Keyboard.releaseAll();
   }
 }
 
 unsigned char convertCode(unsigned char inCode) {
-  /*if (shift || shift_hold) {
-    return s[inCode];
-  }*/
   if (ctrl) {
     return c[inCode];
   }
