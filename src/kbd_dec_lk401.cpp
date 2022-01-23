@@ -266,9 +266,10 @@ void loop() {
     Serial.println(outCode);
 
     if (doSend == true) {
-        Keyboard.press(outCode, shift | shift_hold, ctrl);
+        Keyboard.press(outCode, shift | shift_hold, ctrl, altEmulation);
         delay(20);
         Keyboard.releaseAll();
+        altEmulation=0;
     }
 }
 
