@@ -114,7 +114,7 @@ void setup() {
     k[0xf7] = '#';
     k[0xf5] = 64; // ´/`
 
-    k[0xbf] = '^';
+    k[0xbf] = '^'; // ^/° key does not work for now
 
     // Arrow keys
     k[0xa8] = KEY_RIGHT_ARROW;
@@ -249,7 +249,7 @@ void loop() {
             break;
 
         default:
-            outCode = convertCode(inCode);
+            outCode = inCode;
             lastCode = outCode;
             break;
     }
@@ -272,6 +272,3 @@ void loop() {
     }
 }
 
-unsigned char convertCode(unsigned char inCode) {
-    return k[inCode];
-}
