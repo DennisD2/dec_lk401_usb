@@ -101,7 +101,10 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl) {
             return 0;
         }
         if (shift) {
-            _keyReport.modifiers |= 0x02;    // the left shift modifier
+            _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f) /*0x02*/; // the left shift modifier
+        }
+        if (ctrl) {
+            _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f) ;
         }
         //if ((k & ALT_GR) == ALT_GR) {
         //    _keyReport.modifiers |= 0x40;   // AltGr = right Alt
