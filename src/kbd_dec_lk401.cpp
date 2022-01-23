@@ -3,13 +3,14 @@
  * LK401 keyboard to USB code
  * 
  * This code connects via Serial1 to a Digital DEC LK401 keyboard.
- * By using three tables (for unshifted, shifted and ctrl-ed key codes), it is controlled what
+ * By using a table, it is controlled what
  * codes are sent via USB to USB host. Because the Arduino Keyboard module is used, the LK401 looks 
  * to the host computer like any other USB keyboard.
  * 
  * Open issues:
  * * ^,° character not usable
- * * CTRL-codes mostly not working
+ * * ALTernate codes do not work
+ * * ESC is on "Ausführen" key (LK401 has no ESC key)
  * * Code was written for a german layout keyboard, needs to be reworked for other languages
  * 
  */
@@ -41,14 +42,10 @@ unsigned char k[256];
 /* state variables */
 boolean shift = false; /* Shift key is pressed */
 boolean ctrl = false; /* CTRL key is pressed */
-boolean altEmulation = false; /* emulate missing ALT key */
+boolean alt_emul = false; /* emulate missing ALT key */
 boolean shift_hold = false; /* reflects state of Shift Hold key */
-
 unsigned char key_click_volume = 0;
-
 unsigned char lastCode = 0; /* Last character sent */
-// testing only
-unsigned int testCode = 0;
 
 void setup() {
     Keyboard.begin(KeyboardLayout_dec_lk401_AG);
@@ -160,10 +157,10 @@ void setup() {
     k[0x8f] = KEY_PAGE_DOWN; // Page Down
 
     // Numeric pad
-    k[0xa1] = 39; // PF1
-    k[0xa2] = 39; // PF2
-    k[0xa3] = 39; // PF3
-    k[0xa4] = 39; // PF4
+    k[0xa1] = KEY_F21; // PF1
+    k[0xa2] = KEY_F22; // PF2
+    k[0xa3] = KEY_F23; // PF3
+    k[0xa4] = KEY_F24; // PF4
     k[0x9d] = '7'; // 7
     k[0x9e] = '8'; // 8
     k[0x9f] = '9'; // 9
@@ -219,7 +216,7 @@ void loop() {
 
         case LK401_CODE_GRUPPENUMSCH:
             // emulate ALT key
-            altEmulation = !altEmulation;
+            alt_emul = true;
             doSend = false;
             break;
 
@@ -254,22 +251,16 @@ void loop() {
             break;
     }
 
-/*
-  outCode = ++testCode;
-  if (testCode==238)
-    testCode++;
-*/
-
     Serial.print("LK401: ");
     Serial.print(inCode, HEX);
     Serial.print(", sending: ");
     Serial.println(outCode);
 
     if (doSend == true) {
-        Keyboard.press(outCode, shift | shift_hold, ctrl, altEmulation);
+        Keyboard.press(outCode, shift | shift_hold, ctrl, alt_emul);
         delay(20);
         Keyboard.releaseAll();
-        altEmulation=0;
+        alt_emul=false;
     }
 }
 

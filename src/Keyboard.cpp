@@ -89,7 +89,6 @@ uint8_t USBPutChar(uint8_t c);
 // USB HID works, the host acts like the key remains pressed until we
 // call release(), releaseAll(), or otherwise clear the report and resend.
 size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
-    uint8_t i;
     if (k >= 136) {
         // it's a non-printing key (not a modifier)
         k = k - 136;
@@ -119,6 +118,7 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
 		_keyReport.keys[2] != k && _keyReport.keys[3] != k &&
 		_keyReport.keys[4] != k && _keyReport.keys[5] != k) {
 
+        int i;
 		for (i=0; i<6; i++) {
 			if (_keyReport.keys[i] == 0x00) {
 				_keyReport.keys[i] = k;
