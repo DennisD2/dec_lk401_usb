@@ -9,15 +9,12 @@
  * 
  * Open issues:
  * * ^,° character not usable
- * * ALTernate codes do not work
  * * ESC is on "Ausführen" key (LK401 has no ESC key)
  * * Code was written for a german layout keyboard, needs to be reworked for other languages
- * 
+ *
  */
 #include "Keyboard.h"
 #include "KeyboardLayout.h"
-
-unsigned char convertCode(unsigned char inCode);
 
 // Defines from LK401 keyboard
 #define LK401_CODE_METRONOME 0xb4
@@ -220,7 +217,7 @@ void loop() {
 
     switch (inCode) {
         case LK401_CODE_METRONOME:
-            // 'metronom code' - last key is continuously pressed
+            // 'metronome code' - last key is continuously pressed
             // we just resend last keycode
             outCode = lastCode;
             break;
