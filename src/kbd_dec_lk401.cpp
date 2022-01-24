@@ -48,6 +48,25 @@ boolean shift_hold = false; /* reflects state of Shift Hold key */
 unsigned char key_click_volume = 0;
 unsigned char lastCode = 0; /* Last character sent */
 
+
+void led(uint8_t id, uint8_t on) {
+    if (on) {
+        Serial1.write(LK401_CMD_LED_ON);
+    } else {
+        Serial1.write(LK401_CMD_LED_OFF);
+    }
+    Serial1.write(0x80 | id);
+}
+
+void keyClickVolume(uint8_t volume) {
+    if (volume == 0) {
+        Serial1.write(LK401_CMD_KEY_CLICK_OFF);
+    } else {
+        Serial1.write(LK401_CMD_KEY_CLICK_ON);
+        Serial1.write(0x80 | volume);
+    }
+}
+
 void setup() {
     Keyboard.begin(KeyboardLayout_dec_lk401_AG);
     Serial.begin(115200);
@@ -177,22 +196,17 @@ void setup() {
     k[0x92] = '0'; // 0
     k[0x94] = '.'; // .
 
-    // Switch Shift LED off
-    Serial1.write(LK401_CMD_LED_OFF);
-    Serial1.write(0x80 | LK401_LED_SHIFT);
-    // Switch Lock LED off
-    Serial1.write(LK401_CMD_LED_OFF);
-    Serial1.write(0x80 | LK401_LED_LOCK);
-}
+    // "Greeting" with LEDs, then switch LEDs off
+    led(LK401_LED_SHIFT, true);
+    delay(200);
+    led(LK401_LED_LOCK, true);
+    delay(200);
+    led(LK401_LED_SHIFT, false);
+    delay(200);
+    led(LK401_LED_LOCK, false);
 
-
-void led(uint8_t id, uint8_t on) {
-    if (on) {
-        Serial1.write(LK401_CMD_LED_ON);
-    } else {
-        Serial1.write(LK401_CMD_LED_OFF);
-    }
-    Serial1.write(0x80 | id);
+    // Set keyclick volume to 0
+    keyClickVolume(0);
 }
 
 void loop() {
@@ -244,12 +258,7 @@ void loop() {
 
         case LK401_CODE_F20:
             // we use F20 to control keyboard click audio level
-            if (key_click_volume == 0) {
-                Serial1.write(LK401_CMD_KEY_CLICK_OFF);
-            } else {
-                Serial1.write(LK401_CMD_KEY_CLICK_ON);
-                Serial1.write(0x80 | key_click_volume);
-            }
+            keyClickVolume(key_click_volume);
             if (++key_click_volume == 8) {
                 key_click_volume = 0;
             }
