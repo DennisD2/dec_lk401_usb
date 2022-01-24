@@ -30,6 +30,7 @@ unsigned char convertCode(unsigned char inCode);
 #define LK401_CODE_GRUPPENUMSCH 0xb1
 
 #define LK401_LED_SHIFT 0x4
+#define LK401_LED_LOCK 0x8
 
 #define LK401_CMD_LED_OFF 0x11
 #define LK401_CMD_LED_ON 0x13
@@ -179,6 +180,19 @@ void setup() {
     // Switch Shift LED off
     Serial1.write(LK401_CMD_LED_OFF);
     Serial1.write(0x80 | LK401_LED_SHIFT);
+    // Switch Lock LED off
+    Serial1.write(LK401_CMD_LED_OFF);
+    Serial1.write(0x80 | LK401_LED_LOCK);
+}
+
+
+void led(uint8_t id, uint8_t on) {
+    if (on) {
+        Serial1.write(LK401_CMD_LED_ON);
+    } else {
+        Serial1.write(LK401_CMD_LED_OFF);
+    }
+    Serial1.write(0x80 | id);
 }
 
 void loop() {
@@ -218,18 +232,14 @@ void loop() {
             // emulate ALT key
             alt_emul = true;
             doSend = false;
+            led(LK401_LED_LOCK, alt_emul);
             break;
 
         case LK401_CODE_SHIFT_HOLD:
             // shift hold key is pressed
             shift_hold = !shift_hold;
             doSend = false;
-            if (shift_hold) {
-                Serial1.write(LK401_CMD_LED_ON);
-            } else {
-                Serial1.write(LK401_CMD_LED_OFF);
-            }
-            Serial1.write(0x80 | LK401_LED_SHIFT);
+            led(LK401_LED_SHIFT, shift_hold);
             break;
 
         case LK401_CODE_F20:
@@ -261,6 +271,7 @@ void loop() {
         delay(20);
         Keyboard.releaseAll();
         alt_emul=false;
+        led(LK401_LED_LOCK, alt_emul);
     }
 }
 

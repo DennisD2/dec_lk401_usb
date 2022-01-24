@@ -2,7 +2,7 @@
 This repo contains code to run the DEC LK401 via USB
 at modern computers.
 
-Most of the things work, I m writing these lines
+Most of the things work, I am writing these lines
 on the LK401.
 
 ## Required hardware
