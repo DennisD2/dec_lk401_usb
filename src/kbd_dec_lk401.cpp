@@ -281,8 +281,10 @@ void loop() {
         Keyboard.press(outCode, shift | shift_hold, ctrl, alt_emul);
         delay(20);
         Keyboard.releaseAll();
-        alt_emul=false;
-        led(LK401_LED_LOCK, alt_emul);
+        if (alt_emul) {
+            alt_emul=false;
+            led(LK401_LED_LOCK, alt_emul);
+        }
     }
 }
 
