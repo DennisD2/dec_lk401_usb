@@ -220,36 +220,41 @@ void loop() {
             // 'metronome code' - last key is continuously pressed
             // we just resend last keycode
             outCode = lastCode;
+            Keyboard.press(outCode, false, false, false);
             break;
 
         case LK401_CODE_SHIFT:
             // shift key is pressed
             shift = true;
-            doSend = false;
+            //doSend = false;
+            Keyboard.press(outCode, true, false, false);
             break;
         case LK401_CODE_CTRL:
             // CTRL key is pressed
             ctrl = true;
-            doSend = false;
+            //doSend = false;
+            Keyboard.press(outCode, false, true, false);
             break;
         case LK401_CODE_ALL_UPS:
             // shift and/or CTRL key is released
             shift = false;
             ctrl = false;
-            doSend = false;
+            //doSend = false;
+            Keyboard.release(outCode, true, true, false);
             break;
 
         case LK401_CODE_GRUPPENUMSCH:
             // emulate ALT key
             alt_emul = true;
-            doSend = false;
+            //doSend = false;
+            Keyboard.press(outCode, false, false, true);
             led(LK401_LED_LOCK, alt_emul);
             break;
 
         case LK401_CODE_SHIFT_HOLD:
             // shift hold key is pressed
             shift_hold = !shift_hold;
-            doSend = false;
+            //doSend = false;
             led(LK401_LED_SHIFT, shift_hold);
             break;
 
@@ -259,11 +264,21 @@ void loop() {
             if (++key_click_volume == 8) {
                 key_click_volume = 0;
             }
+            doSend = false;
             break;
 
         default:
             outCode = k[inCode];
             lastCode = outCode;
+            Keyboard.press(outCode, shift | shift_hold, ctrl, alt_emul);
+            delay(20);
+            Keyboard.release(outCode, shift | shift_hold, ctrl, alt_emul);
+
+            if (alt_emul) {
+                alt_emul=false;
+                Keyboard.release(outCode, false, false, true);
+                led(LK401_LED_LOCK, alt_emul);
+            }
             break;
     }
 
@@ -278,13 +293,13 @@ void loop() {
     Serial.println(outCode, HEX);
 
     if (doSend == true) {
-        Keyboard.press(outCode, shift | shift_hold, ctrl, alt_emul);
-        delay(20);
-        Keyboard.releaseAll();
-        if (alt_emul) {
+        //Keyboard.press(outCode, shift | shift_hold, ctrl, alt_emul);
+        //delay(20);
+        //Keyboard.release(outCode, shift | shift_hold, ctrl, alt_emul);
+        /*if (alt_emul) {
             alt_emul=false;
             led(LK401_LED_LOCK, alt_emul);
-        }
+        }*/
     }
 }
 
