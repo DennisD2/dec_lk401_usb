@@ -77,6 +77,9 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
     if (k >= 136) {
         // it's a non-printing key (not a modifier)
         k = k - 136;
+    } else if (k >= 128) {	// it's a modifier key
+        _keyReport.modifiers |= (1<<(k-128));
+        k = 0;
     } else {
         k = pgm_read_byte(_asciimap + k);
         if (!k) {
