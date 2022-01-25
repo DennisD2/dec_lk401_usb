@@ -269,10 +269,13 @@ void loop() {
 
     Serial.print("LK401: ");
     Serial.print(inCode, HEX);
+    Serial.print(", SHCA=");
+    Serial.print(shift);
+    Serial.print(shift_hold);
+    Serial.print(ctrl);
+    Serial.print(alt_emul);
     Serial.print(", sending: ");
-    Serial.print(outCode);
-    Serial.print(", ALT=");
-    Serial.println(alt_emul);
+    Serial.println(outCode, HEX);
 
     if (doSend == true) {
         Keyboard.press(outCode, shift | shift_hold, ctrl, alt_emul);

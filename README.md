@@ -24,3 +24,12 @@ Command line:
 cmake --build ./cmake-build-micro --target all
 ```
 
+## Getting the serial debug output
+While getting the output in Arduino IDE is trivial,
+without Arduino IDE we get it like this:
+```shell
+stty -F /dev/ttyACM0 1000000 raw -clocal -echo
+cat /dev/ttyACM0
+```
+Replace ```/dev/ACM0``` with the correct device for your environment.
+
