@@ -213,7 +213,7 @@ void setup() {
     delay(200);
     led(LK401_LED_LOCK, false);
 
-    // Set keyclick volume to lowest, keeping my nerves healthy
+    // Set keyclick volume to off, keeping my nerves healthy
     keyClickVolume(LK401_VOLUME_OFF);
 }
 
