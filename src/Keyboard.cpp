@@ -77,6 +77,9 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
     if (k >= 136) {
         // it's a non-printing key (not a modifier)
         k = k - 136;
+    } else if (k >= 128) {	// it's a modifier key
+        _keyReport.modifiers |= (1<<(k-128));
+        k = 0;
     } else {
         k = pgm_read_byte(_asciimap + k);
         if (!k) {
@@ -123,34 +126,39 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
 // release() takes the specified key out of the persistent key report and
 // sends the report.  This tells the OS the key is no longer pressed and that
 // it shouldn't be repeated any more.
-size_t Keyboard_::release(uint8_t k)
+size_t Keyboard_::release(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt)
 {
-	uint8_t i;
-/*	if (k >= 136) {			// it's a non-printing key (not a modifier)
-		k = k - 136;
-	} else if (k >= 128) {	// it's a modifier key
-		_keyReport.modifiers &= ~(1<<(k-128));
-		k = 0;
-	} else {				// it's a printing key
- */
+    if (k >= 136) {
+        // it's a non-printing key (not a modifier)
+        k = k - 136;
+    } else if (k >= 128) {	// it's a modifier key
+        _keyReport.modifiers &= ~(1<<(k-128));
+        k = 0;
+    } else {
 		k = pgm_read_byte(_asciimap + k);
 		if (!k) {
 			return 0;
 		}
-		if ((k & ALT_GR) == ALT_GR) {
+		if (alt) {
 			_keyReport.modifiers &= ~(0x40);   // AltGr = right Alt
 			k &= 0x3F;
-		} else if ((k & SHIFT) == SHIFT) {
+		}
+        if (shift) {
 			_keyReport.modifiers &= ~(0x02);	// the left shift modifier
 			k &= 0x7F;
 		}
+        if (ctrl) {
+            _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left shift modifier
+            k &= 0x7F;
+        }
 		if (k == ISO_REPLACEMENT) {
 			k = ISO_KEY;
 		}
-	//}
+	}
 
 	// Test the key report to see if k is present.  Clear it if it exists.
 	// Check all positions in case the key is present more than once (which it shouldn't be)
+    uint8_t i;
 	for (i=0; i<6; i++) {
 		if (0 != k && _keyReport.keys[i] == k) {
 			_keyReport.keys[i] = 0x00;
@@ -179,7 +187,7 @@ size_t Keyboard_::write(uint8_t c)
     uint8_t ctrl=0;
     uint8_t alt=0;
 	uint8_t p = press(c, shift, ctrl, alt);	// Keydown
-	release(c);		// Keyup
+	release(c, shift, ctrl, alt);		// Keyup
 	return p;		// just return the result of press() since release() almost always returns 1
 }
 
