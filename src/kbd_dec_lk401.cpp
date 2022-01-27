@@ -34,6 +34,17 @@
 #define LK401_CMD_KEY_CLICK_ON 0x1b
 #define LK401_CMD_KEY_CLICK_OFF 0x99
 
+// _0=lowest, _6=highest, _OFF=off
+#define LK401_VOLUME_OFF 0x33
+#define LK401_VOLUME_0 0x7
+#define LK401_VOLUME_1 0x6
+#define LK401_VOLUME_2 0x5
+#define LK401_VOLUME_3 0x4
+#define LK401_VOLUME_4 0x3
+#define LK401_VOLUME_5 0x2
+#define LK401_VOLUME_6 0x1
+#define LK401_VOLUME_7 0x0
+
 // keycodes to send
 unsigned char k[256];
 
@@ -56,7 +67,7 @@ void led(uint8_t id, uint8_t on) {
 }
 
 void keyClickVolume(uint8_t volume) {
-    if (volume == 0) {
+    if (volume == LK401_VOLUME_OFF) {
         Serial1.write(LK401_CMD_KEY_CLICK_OFF);
     } else {
         Serial1.write(LK401_CMD_KEY_CLICK_ON);
@@ -202,8 +213,8 @@ void setup() {
     delay(200);
     led(LK401_LED_LOCK, false);
 
-    // Set keyclick volume to 0
-    keyClickVolume(0);
+    // Set keyclick volume to lowest, keeping my nerves healthy
+    keyClickVolume(LK401_VOLUME_OFF);
 }
 
 void loop() {

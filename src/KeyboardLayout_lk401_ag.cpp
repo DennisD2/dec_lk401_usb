@@ -4,7 +4,7 @@
 
 #include "KeyboardLayout.h"
 
-extern const uint8_t KeyboardLayout_dec_lk401_AG[128] PROGMEM =
+extern const uint8_t KeyboardLayout_dec_lk401_AG[129] PROGMEM =
         {
                 0x00,          // NUL
                 0x00,          // SOH
@@ -134,5 +134,6 @@ extern const uint8_t KeyboardLayout_dec_lk401_AG[128] PROGMEM =
                 0x33|SHIFT, // 0x32|ALT_GR,   // | -> Ö
                 0x2f,       // 0x27|ALT_GR,   // } -> ü
                 0x2f|SHIFT, // 0x30|ALT_GR,   // ~ -> Ü
-                0x2d        // 0x00           // DEL -> ß 0x2d
+                0x2d,        // 0x00           // DEL -> ß 0x2d
+                0x40        // CTRL+ALT+DEL
         };
