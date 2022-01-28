@@ -8,6 +8,8 @@ on the LK401.
 ## Special keys
 The following hints are for using the keyboard.
 
+![DEC LK401AG](./images/dec_lk_401.png)
+
 For standard characters, shifted keys and CTRL keys (like
 CTRL-C etc.), the keyboard is exactly as one would expect from
 any other keyboard. Same is with arrow keys, function keys 
