@@ -34,7 +34,7 @@
 #define LK401_CMD_KEY_CLICK_ON 0x1b
 #define LK401_CMD_KEY_CLICK_OFF 0x99
 
-// _0=lowest, _6=highest, _OFF=off
+// _0=lowest, _7=highest, _OFF=off
 #define LK401_VOLUME_OFF 0x33
 #define LK401_VOLUME_0 0x7
 #define LK401_VOLUME_1 0x6
