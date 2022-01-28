@@ -133,7 +133,7 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         RES,
         RES,
         0x76, // Help, mapped to KEY_MENU
-        0x00, // Do
+        0x29, // Execute mapped to ESC
         RES,
         RES,
         0x6c, // F17
