@@ -33,16 +33,16 @@
 #define LK401_CMD_KEY_CLICK_ON 0x1b
 #define LK401_CMD_KEY_CLICK_OFF 0x99
 
-// _0=lowest, _7=highest, _OFF=off
-#define LK401_VOLUME_OFF 0x33
-#define LK401_VOLUME_0 0x7
-#define LK401_VOLUME_1 0x6
-#define LK401_VOLUME_2 0x5
-#define LK401_VOLUME_3 0x4
-#define LK401_VOLUME_4 0x3
-#define LK401_VOLUME_5 0x2
-#define LK401_VOLUME_6 0x1
-#define LK401_VOLUME_7 0x0
+// _0=off, _7=highest,
+#define LK401_VOLUME_0 0x8
+#define LK401_VOLUME_1 0x7
+#define LK401_VOLUME_2 0x6
+#define LK401_VOLUME_3 0x5
+#define LK401_VOLUME_4 0x4
+#define LK401_VOLUME_5 0x3
+#define LK401_VOLUME_6 0x2
+#define LK401_VOLUME_7 0x1
+#define LK401_VOLUME_8 0x0
 
 /* state variables */
 boolean shift = false; /* Shift key is pressed */
@@ -62,7 +62,7 @@ void led(uint8_t id, uint8_t on) {
 }
 
 void keyClickVolume(uint8_t volume) {
-    if (volume == LK401_VOLUME_OFF) {
+    if (volume == LK401_VOLUME_0) {
         Serial1.write(LK401_CMD_KEY_CLICK_OFF);
     } else {
         Serial1.write(LK401_CMD_KEY_CLICK_ON);
@@ -90,7 +90,7 @@ void setup() {
     led(LK401_LED_LOCK, false);
 
     // Set keyclick volume to off, keeping my nerves healthy
-    keyClickVolume(LK401_VOLUME_OFF);
+    keyClickVolume(LK401_VOLUME_0);
 }
 
 void loop() {
@@ -142,7 +142,7 @@ void loop() {
         case LK401_CODE_F20:
             // we use F20 to control keyboard click audio level
             keyClickVolume(key_click_volume);
-            if (++key_click_volume == 8) {
+            if (++key_click_volume == 9) {
                 key_click_volume = 0;
             }
             break;
