@@ -90,7 +90,7 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
             _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f);
         }
         if (ctrl) {
-            _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f) ;
+            _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f);
         }
         if (alt) {
             //_keyReport.modifiers |= (KEY_RIGHT_ALT-0x7f) ;
@@ -148,7 +148,7 @@ size_t Keyboard_::release(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt)
 			k &= 0x7F;
 		}
         if (ctrl) {
-            _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left shift modifier
+            _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
             k &= 0x7F;
         }
 		if (k == ISO_REPLACEMENT) {
