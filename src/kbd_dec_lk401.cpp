@@ -76,7 +76,7 @@ void keyClickVolume(uint8_t volume) {
 }
 
 void setup() {
-    Keyboard.begin(KeyboardLayout_dec_lk401_AG);
+    Keyboard.begin(Keycodes_dec_lk401_AG);
     Serial.begin(115200);
     // Configure serial connection to LK401
     Serial1.begin(4800, SERIAL_8N1);
@@ -87,32 +87,6 @@ void setup() {
 
     // set up k table. Index is keycode from LK401. Value is char to use
     // characters
-    k[0xc2] = 'a';
-    k[0xd9] = 'b';
-    k[0xce] = 'c';
-    k[0xcd] = 'd';
-    k[0xcc] = 'e';
-    k[0xd2] = 'f';
-    k[0xd8] = 'g';
-    k[0xdd] = 'h';
-    k[0xe6] = 'i';
-    k[0xe2] = 'j';
-    k[0xe7] = 'k';
-    k[0xec] = 'l';
-    k[0xe3] = 'm';
-    k[0xde] = 'n';
-    k[0xeb] = 'o';
-    k[0xf0] = 'p';
-    k[0xc1] = 'q';
-    k[0xd1] = 'r';
-    k[0xc7] = 's';
-    k[0xd7] = 't';
-    k[0xe1] = 'u';
-    k[0xd3] = 'v';
-    k[0xc6] = 'w';
-    k[0xc8] = 'x';
-    k[0xc3] = 'y';
-    k[0xdc] = 'z';
     // numbers
     k[0xc0] = '1';
     k[0xc5] = '2';
@@ -139,70 +113,16 @@ void setup() {
     k[0xf7] = '#';
     k[0xf5] = 64; // ´/`
 
-    k[0xbf] = '^'; // ^/° key does not work for now
-
-    // Arrow keys
-    k[0xa8] = KEY_RIGHT_ARROW;
-    k[0xa7] = KEY_LEFT_ARROW;
-    k[0xa9] = KEY_DOWN_ARROW;
-    k[0xaa] = KEY_UP_ARROW;
+    k[0xbf] = KEY_ESC; // '^'; // ^/° key does not work for now
 
     // Function keys
     k[0xb1] = 39; // Gruppenumschaltung
-    k[0xbc] = KEY_BACKSPACE; // Backspace, 0x08 also works
-    k[0xbd] = KEY_RETURN; // // CR, 0xa also works
-    k[0xbe] = KEY_TAB; // TAB, 0x9
-
-    // FunctionKey keys
-    k[0x56] = KEY_F1; // F1
-    k[0x57] = KEY_F2; // F2
-    k[0x58] = KEY_F3; // F3
-    k[0x59] = KEY_F4; // F4
-    k[0x5a] = KEY_F5; // F5
-    k[0x64] = KEY_F6; // F6
-    k[0x65] = KEY_F7; // F7
-    k[0x66] = KEY_F8; // F8
-    k[0x67] = KEY_F9; // F9
-    k[0x68] = KEY_F10; // F10
-    k[0x71] = KEY_F11; // F11
-    k[0x72] = KEY_F12; // F12
-    k[0x73] = KEY_F13; // F13
-    k[0x74] = KEY_F14; // F14
-    k[0x80] = KEY_F17; // F17
-    k[0x81] = KEY_F18; // F18
-    k[0x82] = KEY_F19; // F19
-    k[0x83] = KEY_F20; // F20
 
     k[0x7c] = 0xed; // Hilfe, mapped to KEY_MENU
-    k[0x7d] = KEY_ESC; // 0x1b; // Ausführen, mapped to missing ESC key
-
-    // Editing keys
-    k[0x8a] = KEY_HOME; // Suchen, mapped to KEY_HOME
-    k[0x8b] = KEY_INSERT; // Einfügen
-    k[0x8c] = KEY_DELETE; // Löschen
-    k[0x8d] = KEY_END; // Selektieren, mapped to KEY_END
-    k[0x8e] = KEY_PAGE_UP; // Page Up
-    k[0x8f] = KEY_PAGE_DOWN; // Page Down
+    k[0x7d] = '^'; // 0x1b; // Ausführen, mapped to missing ESC key
 
     // Numeric pad
-    k[0xa1] = KEY_F21; // PF1
-    k[0xa2] = KEY_F22; // PF2
-    k[0xa3] = KEY_F23; // PF3
-    k[0xa4] = KEY_F24; // PF4
-    k[0x9d] = '7'; // 7
-    k[0x9e] = '8'; // 8
-    k[0x9f] = '9'; // 9
-    k[0xa0] = '-'; // -
-    k[0x99] = '4'; // 4
-    k[0x9a] = '5'; // 5
-    k[0x9b] = '6'; // 6
-    k[0x9c] = ','; // ,
-    k[0x96] = '1'; // 1
-    k[0x97] = '2'; // 2
-    k[0x98] = '3'; // 3
     k[0x95] = 10; // Eingabe
-    k[0x92] = '0'; // 0
-    k[0x94] = '.'; // .
 
     // "Greeting" with LEDs, then switch LEDs off
     led(LK401_LED_SHIFT, true);
@@ -272,7 +192,7 @@ void loop() {
             break;
 
         default:
-            outCode = k[inCode];
+            outCode = inCode; // k[inCode];
             lastCode = outCode;
             Keyboard.press(outCode, shift | shift_hold, ctrl, alt_emul);
             delay(20);

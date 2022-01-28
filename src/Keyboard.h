@@ -96,6 +96,7 @@
 
 // Supported keyboard layouts
 extern const uint8_t KeyboardLayout_dec_lk401_AG[];
+extern const uint8_t Keycodes_dec_lk401_AG[];
 
 // Low level key report: up to 6 keys and shift, ctrl etc at once
 typedef struct
