@@ -74,35 +74,26 @@ uint8_t USBPutChar(uint8_t c);
 // USB HID works, the host acts like the key remains pressed until we
 // call release(), releaseAll(), or otherwise clear the report and resend.
 size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
-    /*if (k >= 136) {
-        // it's a non-printing key (not a modifier)
-        k = k - 136;
-    } else if (k >= 128) {	// it's a modifier key
-        _keyReport.modifiers |= (1<<(k-128));
-        k = 0;
-    } else {
-     */
-        k = pgm_read_byte(_asciimap + k);
-    Serial.print("byte: ");
+    k = pgm_read_byte(_asciimap + k);
+    Serial.print(" sending: ");
     Serial.println(k, HEX);
-        if (!k) {
-            setWriteError();
-            return 0;
-        }
-        if (shift) {
-            _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f);
-        }
-        if (ctrl) {
-            _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f);
-        }
-        if (alt) {
-            //_keyReport.modifiers |= (KEY_RIGHT_ALT-0x7f) ;
-            _keyReport.modifiers |= 0x40;   // AltGr = right Alt
-        }
-        if (k == ISO_REPLACEMENT) {
-            k = ISO_KEY;
-        }
-    /*}*/
+    if (!k) {
+        setWriteError();
+        return 0;
+    }
+    if (shift) {
+        _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f);
+    }
+    if (ctrl) {
+        _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f);
+    }
+    if (alt) {
+        //_keyReport.modifiers |= (KEY_RIGHT_ALT-0x7f) ;
+        _keyReport.modifiers |= 0x40;   // AltGr = right Alt
+    }
+    if (k == ISO_REPLACEMENT) {
+        k = ISO_KEY;
+    }
 
 	// Add k to the key report only if it's not already present
 	// and if there is an empty slot.
@@ -131,33 +122,25 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
 // it shouldn't be repeated any more.
 size_t Keyboard_::release(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt)
 {
-    /*if (k >= 136) {
-        // it's a non-printing key (not a modifier)
-        k = k - 136;
-    } else if (k >= 128) {	// it's a modifier key
-        _keyReport.modifiers &= ~(1<<(k-128));
-        k = 0;
-    } else { */
-		k = pgm_read_byte(_asciimap + k);
-		if (!k) {
-			return 0;
-		}
-		if (alt) {
-			_keyReport.modifiers &= ~(0x40);   // AltGr = right Alt
-			k &= 0x3F;
-		}
-        if (shift) {
-			_keyReport.modifiers &= ~(0x02);	// the left shift modifier
-			k &= 0x7F;
-		}
-        if (ctrl) {
-            _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
-            k &= 0x7F;
-        }
-		if (k == ISO_REPLACEMENT) {
-			k = ISO_KEY;
-		}
-	/*}*/
+    k = pgm_read_byte(_asciimap + k);
+    if (!k) {
+        return 0;
+    }
+    if (alt) {
+        _keyReport.modifiers &= ~(0x40);   // AltGr = right Alt
+        k &= 0x3F;
+    }
+    if (shift) {
+        _keyReport.modifiers &= ~(0x02);	// the left shift modifier
+        k &= 0x7F;
+    }
+    if (ctrl) {
+        _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
+        k &= 0x7F;
+    }
+    if (k == ISO_REPLACEMENT) {
+        k = ISO_KEY;
+    }
 
 	// Test the key report to see if k is present.  Clear it if it exists.
 	// Check all positions in case the key is present more than once (which it shouldn't be)

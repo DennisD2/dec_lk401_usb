@@ -8,7 +8,6 @@
  * to the host computer like any other USB keyboard.
  * 
  * Open issues:
- * * ^,° character not usable
  * * ESC is on "Ausführen" key (LK401 has no ESC key)
  * * Code was written for a german layout keyboard, needs to be reworked for other languages
  *
@@ -45,9 +44,6 @@
 #define LK401_VOLUME_6 0x1
 #define LK401_VOLUME_7 0x0
 
-// keycodes to send
-unsigned char k[256];
-
 /* state variables */
 boolean shift = false; /* Shift key is pressed */
 boolean ctrl = false; /* CTRL key is pressed */
@@ -55,7 +51,6 @@ boolean alt_emul = false; /* emulate missing ALT key */
 boolean shift_hold = false; /* reflects state of Shift Hold key */
 unsigned char key_click_volume = 0;
 unsigned char lastCode = 0; /* Last character sent */
-
 
 void led(uint8_t id, uint8_t on) {
     if (on) {
@@ -85,45 +80,6 @@ void setup() {
     Serial.println("DEC LK401 to USB");
     delay(100);
 
-    // set up k table. Index is keycode from LK401. Value is char to use
-    // characters
-    // numbers
-    k[0xc0] = '1';
-    k[0xc5] = '2';
-    k[0xcb] = '3';
-    k[0xd0] = '4';
-    k[0xd6] = '5';
-    k[0xdb] = '6';
-    k[0xe0] = '7';
-    k[0xe5] = '8';
-    k[0xea] = '9';
-    k[0xef] = '0';
-    // umlauts
-    k[0xfa] = 125; // ü
-    k[0xfb] = 91;  // ä
-    k[0xf9] = 127; // ß
-    k[0xf2] = 123; // ö
-    // other character keys
-    k[0xe8] = ',';
-    k[0xed] = '.';
-    k[0xc9] = '<';
-    k[0xd4] = ' ';
-    k[0xf3] = '-';
-    k[0xf6] = '+';
-    k[0xf7] = '#';
-    k[0xf5] = 64; // ´/`
-
-    k[0xbf] = KEY_ESC; // '^'; // ^/° key does not work for now
-
-    // Function keys
-    k[0xb1] = 39; // Gruppenumschaltung
-
-    k[0x7c] = 0xed; // Hilfe, mapped to KEY_MENU
-    k[0x7d] = '^'; // 0x1b; // Ausführen, mapped to missing ESC key
-
-    // Numeric pad
-    k[0x95] = 10; // Eingabe
-
     // "Greeting" with LEDs, then switch LEDs off
     led(LK401_LED_SHIFT, true);
     delay(200);
@@ -138,7 +94,7 @@ void setup() {
 }
 
 void loop() {
-    unsigned char inCode, outCode = 0;
+    unsigned char inCode; //, outCode = 0;
 
     if (Serial1.available() <= 0) {
         return;
@@ -155,31 +111,31 @@ void loop() {
         case LK401_CODE_SHIFT:
             // shift key is pressed
             shift = true;
-            Keyboard.press(outCode, true, false, false);
+            Keyboard.press(inCode, true, false, false);
             break;
         case LK401_CODE_CTRL:
             // CTRL key is pressed
             ctrl = true;
-            Keyboard.press(outCode, false, true, false);
+            Keyboard.press(inCode, false, true, false);
             break;
         case LK401_CODE_ALL_UPS:
             // shift and/or CTRL key is released
             shift = false;
             ctrl = false;
-            Keyboard.release(outCode, true, true, false);
+            Keyboard.release(inCode, true, true, false);
             break;
 
         case LK401_CODE_GRUPPENUMSCH:
             // emulate ALT key
             alt_emul = true;
-            Keyboard.press(outCode, false, false, true);
+            Keyboard.press(inCode, false, false, true);
             led(LK401_LED_LOCK, alt_emul);
             break;
 
         case LK401_CODE_SHIFT_HOLD:
             // shift hold key is pressed
             shift_hold = !shift_hold;
-            Keyboard.press(outCode, shift_hold, false, false);
+            Keyboard.press(inCode, shift_hold, false, false);
             led(LK401_LED_SHIFT, shift_hold);
             break;
 
@@ -192,15 +148,14 @@ void loop() {
             break;
 
         default:
-            outCode = inCode; // k[inCode];
-            lastCode = outCode;
-            Keyboard.press(outCode, shift | shift_hold, ctrl, alt_emul);
+            lastCode = inCode;
+            Keyboard.press(inCode, shift | shift_hold, ctrl, alt_emul);
             delay(20);
-            Keyboard.release(outCode, shift | shift_hold, ctrl, alt_emul);
+            Keyboard.release(inCode, shift | shift_hold, ctrl, alt_emul);
 
             if (alt_emul) {
                 alt_emul=false;
-                Keyboard.release(outCode, false, false, true);
+                Keyboard.release(inCode, false, false, true);
                 led(LK401_LED_LOCK, alt_emul);
             }
             break;
