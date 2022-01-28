@@ -1,9 +1,8 @@
 /*
- * Digital DEC LK401 german keyboard layout.
+ * Digital DEC LK401 german keyboard layout
  */
 
 #include "KeyboardLayout.h"
-#include "Keyboard.h"
 
 #define RES 0x00 /* reserved */
 #define UNUSED 0x00 /* unused */
@@ -95,11 +94,11 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         UNUSED,
         UNUSED,
         UNUSED,
-        0x00, //
-        0x00, //
-        0x00, //
-        KEY_F4, //
-        0x00, //
+        0x00, // Hold screen
+        0x00, // Print screen
+        0x00, // Set-Up
+        0x3d, // F4
+        0x00, // Break
         RES,
         RES,
         RES,
@@ -109,77 +108,77 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         RES,
         RES,
         RES,
-        0x00, //
-        0x00, //
-        0x00, //
-        0x00, //
-        0x00, //
+        0x00, // Interrupt
+        0x00, // Resume
+        0x00, // Cancel
+        0x00, // Main screen
+        0x00, // Exit
         RES,
         RES,
         RES,
         RES,
         RES,
         RES,
-        0x00, //
+        0x00, // undocumented code
         RES,
-        KEY_F11, //
-        KEY_F12, //
-        KEY_F13, //
-        0x00, //
-        RES,
-        RES,
-        RES,
-        RES,
-        RES,
-        RES,
-        RES,
-        KEY_MENU, // Help, mapped to KEY_MENU
-        0x00, //
-        RES,
-        RES,
-        KEY_F17, //
-        KEY_F18, //
-        KEY_F19, //
-        KEY_F20, //
+        0x44, // F11
+        0x45, // F12
+        0x68, // F13
+        0x00, // Addtnl Options
         RES,
         RES,
         RES,
         RES,
         RES,
         RES,
-        KEY_HOME, // Suchen, mapped to KEY_HOME
-        KEY_INSERT, //
-        KEY_DELETE, //
-        KEY_END, // Selektieren mapped to KEY_END
-        KEY_PAGE_UP, //
-        KEY_PAGE_DOWN, //
+        RES,
+        0x76, // Help, mapped to KEY_MENU
+        0x00, // Do
         RES,
         RES,
-        '0', //
-        RES,
-        '.', //
-        0x28, // or 10 ???
-        '1', //
-        '2', //
-        '3', //
-        '4', //
-        '5', //
-        '6', //
-        ',', //
-        '7', //
-        '8', //
-        '9', //
-        '-', //
-        KEY_F21, //
-        KEY_F22, //
-        KEY_F23, //
-        KEY_F24, //
+        0x6c, // F17
+        0x6d, // F18
+        0x6e, // F19
+        0x6f, // F20
         RES,
         RES,
-        KEY_LEFT_ARROW, //
-        KEY_RIGHT_ARROW, //
-        KEY_DOWN_ARROW, //
-        KEY_UP_ARROW, //
+        RES,
+        RES,
+        RES,
+        RES,
+        0x4a, // Suchen, mapped to KEY_HOME
+        0x49, // Insert
+        0x4c, // Delete forward
+        0x4d, // Selektieren mapped to KEY_END
+        0x4b, // page up
+        0x4e, // page down
+        RES,
+        RES,
+        0x27, // 0
+        RES,
+        0x36, // .
+        0x58, // Enter
+        0x1e, // 1
+        0x1f, // 2
+        0x20, // 3
+        0x21, // 4
+        0x22, // 5
+        0x23, // 6
+        0x37, // ,
+        0x24, // 7
+        0x25, // 8
+        0x26, // 9
+        0x38, // -
+        0x70, // PF1 mapped to F21
+        0x71, // PF2 mapped to F22
+        0x72, // PF3 mapped to F23
+        0x73, // PF4 mapped to F24
+        RES,
+        RES,
+        0x50, // left arrow
+        0x4f, // right arrow
+        0x51, // down arrow
+        0x52, // up arrow
         RES,
         RES,
         RES,
@@ -200,7 +199,7 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         0x2a, // backspace
         0x28, // return
         0x2b, // tab
-        0x00, // soll ~
+        0x35, // ^
         0x1e, // 1
         0x14, // q
         0x04, // a
@@ -241,18 +240,18 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         0x25, // 8
         0x0c, // i
         0x0e, // k
-        '"', // ???
+        0x36, // ,
         RES,
         0x26, // 9
         0x12, // o
         0x0f, // l
-        '.', // ???
+        0x37, // .
         RES,
         0x27, // 0
         0x13, // p
         RES,
         0x33, // ö
-        0x2d, // ???
+        0x38, // -
         RES,
         0x2e, // ´
         0x30, // +
@@ -266,136 +265,3 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         RES,
         RES
 };
-
-extern const uint8_t KeyboardLayout_dec_lk401_AG[129] PROGMEM = {
-       0x00, // NUL
-       0x00, // SOH
-       0x00, // STX
-       0x00, // ETX
-       0x00, // EOT
-       0x00, // ENQ
-       0x00, // ACK
-       0x00, // BEL
-       0x2a, // BS  Backspace
-       0x2b, // TAB Tab
-       0x28, // LF  Enter
-       0x00, // VT
-       0x00, // FF
-       0x00, // CR
-       0x00, // SO
-       0x00, // SI
-       0x00, // DEL
-       0x00, // DC1
-       0x00, // DC2
-       0x00, // DC3
-       0x00, // DC4
-       0x00, // NAK
-       0x00, // SYN
-       0x00, // ETB
-       0x00, // CAN
-       0x00, // EM
-       0x00, // SUB
-       0x00, // ESC
-       0x00, // FS
-       0x00, // GS
-       0x00, // RS
-       0x00, // US
-
-       0x2c, // ' '
-       0x1e|SHIFT,    // !
-       0x1f|SHIFT,    // "
-       0x31, // #
-       0x21|SHIFT,    // $
-       0x22|SHIFT,    // %
-       0x23|SHIFT,    // &
-       0x31|SHIFT,    // '
-       0x25|SHIFT,    // (
-       0x26|SHIFT,    // )
-       0x30|SHIFT,    // *
-       0x30, // +
-       0x36, // ,
-       0x38, // -
-       0x37, // .
-       0x24|SHIFT,    // /
-       0x27, // 0
-       0x1e, // 1
-       0x1f, // 2
-       0x20, // 3
-       0x21, // 4
-       0x22, // 5
-       0x23, // 6
-       0x24, // 7
-       0x25, // 8
-       0x26, // 9
-       0x37|SHIFT,    // :
-       0x36|SHIFT,    // ;
-       0x32, // <
-       0x27|SHIFT,    // =
-       0x32|SHIFT,    // >
-       0x2d|SHIFT,    // ?
-       0x2e, // 0x14|ALT_GR,   // @ -> ´
-       0x04|SHIFT,    // A
-       0x05|SHIFT,    // B
-       0x06|SHIFT,    // C
-       0x07|SHIFT,    // D
-       0x08|SHIFT,    // E
-       0x09|SHIFT,    // F
-       0x0a|SHIFT,    // G
-       0x0b|SHIFT,    // H
-       0x0c|SHIFT,    // I
-       0x0d|SHIFT,    // J
-       0x0e|SHIFT,    // K
-       0x0f|SHIFT,    // L
-       0x10|SHIFT,    // M
-       0x11|SHIFT,    // N
-       0x12|SHIFT,    // O
-       0x13|SHIFT,    // P
-       0x14|SHIFT,    // Q
-       0x15|SHIFT,    // R
-       0x16|SHIFT,    // S
-       0x17|SHIFT,    // T
-       0x18|SHIFT,    // U
-       0x19|SHIFT,    // V
-       0x1a|SHIFT,    // W
-       0x1b|SHIFT,    // X
-       0x1d|SHIFT,    // Y
-       0x1c|SHIFT,    // Z
-       0x34,       // 0x25|ALT_GR,   // [ -> ä
-       0x2d|ALT_GR,   // bslash
-       0x34|SHIFT, // 0x26|ALT_GR,   // ] -> Ä
-       0x00, // ^  not supported (requires dead key + space)
-       0x38|SHIFT,    // _
-       0x2e|SHIFT, // 0x00, // `  not supported (requires dead key + space)
-       0x04, // a
-       0x05, // b
-       0x06, // c
-       0x07, // d
-       0x08, // e
-       0x09, // f
-       0x0a, // g
-       0x0b, // h
-       0x0c, // i
-       0x0d, // j
-       0x0e, // k
-       0x0f, // l
-       0x10, // m
-       0x11, // n
-       0x12, // o
-       0x13, // p
-       0x14, // q
-       0x15, // r
-       0x16, // s
-       0x17, // t
-       0x18, // u
-       0x19, // v
-       0x1a, // w
-       0x1b, // x
-       0x1d, // y
-       0x1c, // z
-       0x33,       // 0x24|ALT_GR,   // { -> ö
-       0x33|SHIFT, // 0x32|ALT_GR,   // | -> Ö
-       0x2f,       // 0x27|ALT_GR,   // } -> ü
-       0x2f|SHIFT, // 0x30|ALT_GR,   // ~ -> Ü
-       0x2d,        // 0x00  // DEL -> ß 0x2d
-       0x40        // CTRL+ALT+DEL
-        };

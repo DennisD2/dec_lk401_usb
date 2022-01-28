@@ -212,8 +212,6 @@ void loop() {
     Serial.print(shift);
     Serial.print(shift_hold);
     Serial.print(ctrl);
-    Serial.print(alt_emul);
-    Serial.print(", sending: ");
-    Serial.println(outCode, HEX);
+    Serial.println(alt_emul);
 }
 
