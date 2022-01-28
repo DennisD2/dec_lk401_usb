@@ -44,13 +44,14 @@ the PC as a standard USB keyboard.
 More information on the approach is [here](http://spurtikus.de/posts/electronics-usb-keyboard/).
 
 ## How to build
-This project was created with CLion.
-It is a cmake based project and uses platform.io
+This project was created with [CLion](https://www.jetbrains.com/clion/).
+It is a cmake based project and uses [platform.io](https://platformio.org/)
 
 To install platform.io together with CLion, see here
 https://blog.jetbrains.com/clion/2020/08/arduino-from-hobby-to-prof-p1/
 
-Command line:
+After installation of tools above, the project can be build
+with a mouse click in CLion, or on command line:
 ```shell
 cmake --build ./cmake-build-micro --target all
 ```
