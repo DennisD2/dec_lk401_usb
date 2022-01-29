@@ -123,15 +123,12 @@ size_t Keyboard_::release(uint8_t k, uint8_t shiftHold, uint8_t alt)
     Serial.println(k, HEX);
 
     if (k == 0xb3) {
-        // AllUp
-        //  = Shift Up
-        //    CTRL Up
+        // AllUp: Shift Up, CTRL Up
         _keyReport.modifiers &= ~(0x02); // the left shift modifier
         _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
         _keyReport.modifiers &= ~(0x40); // AltGr = right Alt
-        k = 0x00;
     }
-
+    // release key
     _keyReport.keys[0] = 0x00;
 	sendReport(&_keyReport);
 	return 1;

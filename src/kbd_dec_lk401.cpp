@@ -45,8 +45,6 @@
 #define LK401_VOLUME_8 0x0
 
 /* state variables */
-boolean shift = false; /* Shift key is pressed */
-boolean ctrl = false; /* CTRL key is pressed */
 boolean alt_emul = false; /* emulate missing ALT key */
 boolean shift_hold = false; /* reflects state of Shift Hold key */
 unsigned char key_click_volume = 0;
@@ -112,18 +110,14 @@ void loop() {
 
         case LK401_CODE_SHIFT:
             // shift key is pressed
-            shift = true;
             Keyboard.press(inCode, false, false);
             break;
         case LK401_CODE_CTRL:
             // CTRL key is pressed
-            ctrl = true;
             Keyboard.press(inCode, false, false);
             break;
         case LK401_CODE_ALL_UPS:
             // shift and/or CTRL key is released
-            shift = false;
-            ctrl = false;
             Keyboard.release(inCode, false, false);
             break;
 
@@ -165,10 +159,8 @@ void loop() {
 
     Serial.print("LK401: ");
     Serial.print(inCode, HEX);
-    Serial.print(", SHCA=");
-    Serial.print(shift);
+    Serial.print(", SHA=");
     Serial.print(shift_hold);
-    Serial.print(ctrl);
     Serial.println(alt_emul);
 }
 
