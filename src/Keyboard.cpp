@@ -80,12 +80,12 @@ size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
 
     if (k == 0xae) {
         // Shift key
-        _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f);	// the left shift modifier
+        _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f);
         k=0x00;
     }
     if (k == 0xaf) {
         // CTRL key
-        _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f); // the left ctrl modifier
+        _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f);
         k=0x00;
     }
     if (k == 0xb0) {
@@ -96,6 +96,12 @@ size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
             _keyReport.modifiers &= ~(0x02); // the left shift modifier
         };
         k=0x00;
+    }
+    if (k == 0x6e) {
+        // F19 used for CTRL+ALT+DEL
+        _keyReport.modifiers = (KEY_LEFT_CTRL-0x7f); // the left ctrl modifier
+        _keyReport.modifiers |= (KEY_LEFT_ALT-0x7f) ; // left ALT modifier
+        k=0x4c; // DEL
     }
 
     if (alt) {
@@ -124,7 +130,10 @@ size_t Keyboard_::release(uint8_t k, uint8_t shiftHold, uint8_t alt)
         _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
         _keyReport.modifiers &= ~(0x40); // AltGr = right Alt
     }
-
+    if (k == 0x6e) {
+        // F19 used for CTRL+ALT+DEL
+        _keyReport.modifiers = 0x00;
+    }
     if (alt) {
         _keyReport.modifiers &= ~(0x40); // AltGr = right Alt
     }
