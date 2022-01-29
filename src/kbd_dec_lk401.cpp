@@ -45,8 +45,6 @@
 #define LK401_VOLUME_8 0x0
 
 /* state variables */
-boolean shift = false; /* Shift key is pressed */
-boolean ctrl = false; /* CTRL key is pressed */
 boolean alt_emul = false; /* emulate missing ALT key */
 boolean shift_hold = false; /* reflects state of Shift Hold key */
 unsigned char key_click_volume = 0;
@@ -91,6 +89,8 @@ void setup() {
 
     // Set keyclick volume to off, keeping my nerves healthy
     keyClickVolume(LK401_VOLUME_0);
+
+    Keyboard.releaseAll();
 }
 
 void loop() {
@@ -105,37 +105,33 @@ void loop() {
         case LK401_CODE_METRONOME:
             // 'metronome code' - last key is continuously pressed
             // we just resend last keycode
-            Keyboard.press(lastCode, false, false, false);
+            Keyboard.press(lastCode, false, false);
             break;
 
         case LK401_CODE_SHIFT:
             // shift key is pressed
-            shift = true;
-            Keyboard.press(inCode, true, false, false);
+            Keyboard.press(inCode, false, false);
             break;
         case LK401_CODE_CTRL:
             // CTRL key is pressed
-            ctrl = true;
-            Keyboard.press(inCode, false, true, false);
+            Keyboard.press(inCode, false, false);
             break;
         case LK401_CODE_ALL_UPS:
             // shift and/or CTRL key is released
-            shift = false;
-            ctrl = false;
-            Keyboard.release(inCode, true, true, false);
+            Keyboard.release(inCode, false, false);
             break;
 
         case LK401_CODE_GRUPPENUMSCH:
             // emulate ALT key
             alt_emul = true;
-            Keyboard.press(inCode, false, false, true);
+            Keyboard.press(inCode, false, true);
             led(LK401_LED_LOCK, alt_emul);
             break;
 
         case LK401_CODE_SHIFT_HOLD:
             // shift hold key is pressed
             shift_hold = !shift_hold;
-            Keyboard.press(inCode, shift_hold, false, false);
+            Keyboard.press(inCode, shift_hold, false);
             led(LK401_LED_SHIFT, shift_hold);
             break;
 
@@ -149,13 +145,13 @@ void loop() {
 
         default:
             lastCode = inCode;
-            Keyboard.press(inCode, shift | shift_hold, ctrl, alt_emul);
+            Keyboard.press(inCode, false, alt_emul);
             delay(20);
-            Keyboard.release(inCode, shift | shift_hold, ctrl, alt_emul);
+            Keyboard.release(inCode, false, alt_emul);
 
             if (alt_emul) {
                 alt_emul=false;
-                Keyboard.release(inCode, false, false, true);
+                Keyboard.release(inCode, false, true);
                 led(LK401_LED_LOCK, alt_emul);
             }
             break;
@@ -163,10 +159,8 @@ void loop() {
 
     Serial.print("LK401: ");
     Serial.print(inCode, HEX);
-    Serial.print(", SHCA=");
-    Serial.print(shift);
+    Serial.print(", SHA=");
     Serial.print(shift_hold);
-    Serial.print(ctrl);
     Serial.println(alt_emul);
 }
 
