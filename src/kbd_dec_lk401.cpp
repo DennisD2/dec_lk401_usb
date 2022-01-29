@@ -145,9 +145,9 @@ void loop() {
 
         default:
             lastCode = inCode;
-            Keyboard.press(inCode, false, alt_emul);
+            Keyboard.press(inCode, false, false);
             delay(20);
-            Keyboard.release(inCode, false, alt_emul);
+            Keyboard.release(inCode, false, false);
 
             if (alt_emul) {
                 alt_emul=false;

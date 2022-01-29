@@ -97,15 +97,11 @@ size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
         };
         k=0x00;
     }
-    /*if (k == 0xae) {
-        // Shift
-        _keyReport.modifiers |= 0x40;   // AltGr = right Alt
-        k=0x00;
-    }*/
 
     if (alt) {
         //_keyReport.modifiers |= (KEY_RIGHT_ALT-0x7f) ;
         _keyReport.modifiers |= 0x40;   // AltGr = right Alt
+        k=0x00;
     }
 
     _keyReport.keys[0] = k;
@@ -128,6 +124,11 @@ size_t Keyboard_::release(uint8_t k, uint8_t shiftHold, uint8_t alt)
         _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
         _keyReport.modifiers &= ~(0x40); // AltGr = right Alt
     }
+
+    if (alt) {
+        _keyReport.modifiers &= ~(0x40); // AltGr = right Alt
+    }
+
     // release key
     _keyReport.keys[0] = 0x00;
 	sendReport(&_keyReport);
