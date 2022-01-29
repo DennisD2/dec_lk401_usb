@@ -182,12 +182,12 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         RES,
         RES,
         RES,
-        0x00, // Shift
-        0x00, // Ctrl
+        0xae, // Shift
+        0xaf, // Ctrl
         0x00, // Lock
         0x00, // Compose
         RES,
-        0x00, // All Ups
+        0xb3, // All Ups
         0x00, // Metronome
         0x00, // Output error
         0x00, // Input error

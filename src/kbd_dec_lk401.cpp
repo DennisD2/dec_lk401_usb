@@ -91,6 +91,8 @@ void setup() {
 
     // Set keyclick volume to off, keeping my nerves healthy
     keyClickVolume(LK401_VOLUME_0);
+
+    Keyboard.releaseAll();
 }
 
 void loop() {

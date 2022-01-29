@@ -75,44 +75,31 @@ uint8_t USBPutChar(uint8_t c);
 // call release(), releaseAll(), or otherwise clear the report and resend.
 size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
     k = pgm_read_byte(_asciimap + k);
-    Serial.print(" sending: ");
+    Serial.print(" press: ");
     Serial.println(k, HEX);
-    if (!k) {
-        setWriteError();
-        return 0;
+
+    if (k == 0xae) {
+        // Shift key
+        _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f);	// the left shift modifier
+        k=0x00;
     }
-    if (shift) {
-        _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f);
+    if (k == 0xaf) {
+        // CTRL key
+        _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f); // the left ctrl modifier
+        k=0x00;
     }
-    if (ctrl) {
-        _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f);
-    }
+    /*if (k == 0xae) {
+        // Shift
+        _keyReport.modifiers |= 0x40;   // AltGr = right Alt
+        k=0x00;
+    }*/
+
     if (alt) {
         //_keyReport.modifiers |= (KEY_RIGHT_ALT-0x7f) ;
         _keyReport.modifiers |= 0x40;   // AltGr = right Alt
     }
-    if (k == ISO_REPLACEMENT) {
-        k = ISO_KEY;
-    }
 
-	// Add k to the key report only if it's not already present
-	// and if there is an empty slot.
-	if (_keyReport.keys[0] != k && _keyReport.keys[1] != k &&
-		_keyReport.keys[2] != k && _keyReport.keys[3] != k &&
-		_keyReport.keys[4] != k && _keyReport.keys[5] != k) {
-
-        int i;
-		for (i=0; i<6; i++) {
-			if (_keyReport.keys[i] == 0x00) {
-				_keyReport.keys[i] = k;
-				break;
-			}
-		}
-		if (i == 6) {
-			setWriteError();
-			return 0;
-		}
-	}
+    _keyReport.keys[0] = k;
 	sendReport(&_keyReport);
 	return 1;
 }
@@ -123,31 +110,20 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
 size_t Keyboard_::release(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt)
 {
     k = pgm_read_byte(_asciimap + k);
-    if (!k) {
-        return 0;
-    }
-    if (alt) {
-        _keyReport.modifiers &= ~(0x40);   // AltGr = right Alt
-    }
-    if (shift) {
-        _keyReport.modifiers &= ~(0x02);	// the left shift modifier
-    }
-    if (ctrl) {
+    Serial.print(" release: ");
+    Serial.println(k, HEX);
+
+    if (k == 0xb3) {
+        // AllUp
+        //  = Shift Up
+        //    CTRL Up
+        _keyReport.modifiers &= ~(0x02); // the left shift modifier
         _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
-    }
-    if (k == ISO_REPLACEMENT) {
-        k = ISO_KEY;
+        _keyReport.modifiers &= ~(0x40); // AltGr = right Alt
+        k = 0x00;
     }
 
-	// Test the key report to see if k is present.  Clear it if it exists.
-	// Check all positions in case the key is present more than once (which it shouldn't be)
-    uint8_t i;
-	for (i=0; i<6; i++) {
-		if (0 != k && _keyReport.keys[i] == k) {
-			_keyReport.keys[i] = 0x00;
-		}
-	}
-
+    _keyReport.keys[0] = 0x00;
 	sendReport(&_keyReport);
 	return 1;
 }
@@ -162,31 +138,6 @@ void Keyboard_::releaseAll(void)
 	_keyReport.keys[5] = 0;
 	_keyReport.modifiers = 0;
 	sendReport(&_keyReport);
-}
-
-size_t Keyboard_::write(uint8_t c)
-{
-    uint8_t shift=0;
-    uint8_t ctrl=0;
-    uint8_t alt=0;
-	uint8_t p = press(c, shift, ctrl, alt);	// Keydown
-	release(c, shift, ctrl, alt);		// Keyup
-	return p;		// just return the result of press() since release() almost always returns 1
-}
-
-size_t Keyboard_::write(const uint8_t *buffer, size_t size) {
-	size_t n = 0;
-	while (size--) {
-		if (*buffer != '\r') {
-			if (write(*buffer)) {
-				n++;
-			} else {
-				break;
-			}
-		}
-		buffer++;
-	}
-	return n;
 }
 
 Keyboard_ Keyboard;

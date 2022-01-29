@@ -49,8 +49,8 @@ public:
   Keyboard_(void);
   void begin(const uint8_t *layout = Keycodes_dec_lk401_AG);
   void end(void);
-  size_t write(uint8_t k);
-  size_t write(const uint8_t *buffer, size_t size);
+  size_t write(uint8_t k){};
+  size_t write(const uint8_t *buffer, size_t size){};
   size_t press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt);
   size_t release(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt);
   void releaseAll(void);
