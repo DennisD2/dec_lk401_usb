@@ -69,4 +69,4 @@ Replace ```/dev/ACM0``` with the correct device for your environment.
 
 How to send CTRL+ALT+DEL : https://forum.arduino.cc/t/this-is-how-to-send-control-alt-delete-with-virtual-usb-keyboard-library/146305/2
 
-USB HUT Documentation [Link](./doc/Hut1_12v2.pdf)
+USB HUT Documentation, see page 53 for keyboard codes [Link](./doc/Hut1_12v2.pdf)
