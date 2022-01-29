@@ -209,7 +209,7 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         0x1a, // w
         0x16, // s
         0x1b, // x
-        0x32, // <
+        0x64, // <
         RES,
         0x20, // 3
         0x08, // e
