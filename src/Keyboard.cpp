@@ -73,7 +73,7 @@ uint8_t USBPutChar(uint8_t c);
 // to the persistent key report and sends the report.  Because of the way
 // USB HID works, the host acts like the key remains pressed until we
 // call release(), releaseAll(), or otherwise clear the report and resend.
-size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
+size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
     k = pgm_read_byte(_asciimap + k);
     Serial.print(" press: ");
     Serial.println(k, HEX);
@@ -86,6 +86,15 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
     if (k == 0xaf) {
         // CTRL key
         _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f); // the left ctrl modifier
+        k=0x00;
+    }
+    if (k == 0xb0) {
+        // Shift Lock key
+        if (shiftHold) {
+            _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f);	// the left shift modifier
+        } else {
+            _keyReport.modifiers &= ~(0x02); // the left shift modifier
+        };
         k=0x00;
     }
     /*if (k == 0xae) {
@@ -107,7 +116,7 @@ size_t Keyboard_::press(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt) {
 // release() takes the specified key out of the persistent key report and
 // sends the report.  This tells the OS the key is no longer pressed and that
 // it shouldn't be repeated any more.
-size_t Keyboard_::release(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt)
+size_t Keyboard_::release(uint8_t k, uint8_t shiftHold, uint8_t alt)
 {
     k = pgm_read_byte(_asciimap + k);
     Serial.print(" release: ");
