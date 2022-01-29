@@ -128,15 +128,12 @@ size_t Keyboard_::release(uint8_t k, uint8_t shift, uint8_t ctrl, uint8_t alt)
     }
     if (alt) {
         _keyReport.modifiers &= ~(0x40);   // AltGr = right Alt
-        k &= 0x3F;
     }
     if (shift) {
         _keyReport.modifiers &= ~(0x02);	// the left shift modifier
-        k &= 0x7F;
     }
     if (ctrl) {
         _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
-        k &= 0x7F;
     }
     if (k == ISO_REPLACEMENT) {
         k = ISO_KEY;
