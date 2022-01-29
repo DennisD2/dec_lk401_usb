@@ -53,6 +53,10 @@ https://blog.jetbrains.com/clion/2020/08/arduino-from-hobby-to-prof-p1/
 After installation of tools above, the project can be build
 with a mouse click in CLion, or on command line:
 ```shell
+mkdir cmake-build-micro
+cd cmake-build-micro
+cmake -DCMAKE_BUILD_TYPE=micro -G "CodeBlocks - Unix Makefiles" /<path to project>/keyboard
+
 cmake --build ./cmake-build-micro --target all
 ```
 
