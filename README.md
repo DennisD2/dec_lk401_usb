@@ -70,7 +70,7 @@ cat /dev/ttyACM0
 Replace ```/dev/ACM0``` with the correct device for your environment.
 
 ## Further reading and todos
-
-How to send CTRL+ALT+DEL : https://forum.arduino.cc/t/this-is-how-to-send-control-alt-delete-with-virtual-usb-keyboard-library/146305/2
-
-USB HUT Documentation, see page 53 for keyboard codes [Link](./doc/Hut1_12v2.pdf)
+* USB HUT Documentation, see page 53 for keyboard codes [Link](./doc/Hut1_12v2.pdf)
+* (Digital DEC documentation for keyboard *VCB02 Video Subsystem Technical Manual*
+  is >120MB PDF, too large to put it here)
+* How to send CTRL+ALT+DEL: https://forum.arduino.cc/t/this-is-how-to-send-control-alt-delete-with-virtual-usb-keyboard-library/146305/2
