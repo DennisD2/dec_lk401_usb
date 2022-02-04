@@ -14,6 +14,7 @@
  */
 #include "Keyboard.h"
 #include "KeyboardLayout.h"
+#include "log.h"
 
 // Defines from LK401 keyboard
 #define LK401_CODE_METRONOME 0xb4
@@ -70,12 +71,12 @@ void keyClickVolume(uint8_t volume) {
 
 void setup() {
     Keyboard.begin(Keycodes_dec_lk401_AG);
-    Serial.begin(115200);
+    logSerialInit(115200);
     // Configure serial connection to LK401
     Serial1.begin(4800, SERIAL_8N1);
 
     delay(200);
-    Serial.println("DEC LK401 to USB");
+    logSerial("DEC LK401 to USB"); logLn();
     delay(100);
 
     // "Greeting" with LEDs, then switch LEDs off
@@ -157,10 +158,12 @@ void loop() {
             break;
     }
 
-    Serial.print("LK401: ");
-    Serial.print(inCode, HEX);
-    Serial.print(", SHA=");
-    Serial.print(shift_hold);
-    Serial.println(alt_emul);
+    logSerial("LK401: ");
+    logSerial(inCode, HEX);
+    logSerial(", SHA=");
+    logSerial(shift_hold);
+    logSerial(alt_emul);
+    logLn();
 }
+
 

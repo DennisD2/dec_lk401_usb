@@ -6,6 +6,7 @@
 
 #include "Keyboard.h"
 #include "KeyboardLayout.h"
+#include "log.h"
 
 #if defined(_USING_HID)
 
@@ -75,8 +76,9 @@ uint8_t USBPutChar(uint8_t c);
 // call release(), releaseAll(), or otherwise clear the report and resend.
 size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
     k = pgm_read_byte(_asciimap + k);
-    Serial.print(" press: ");
-    Serial.println(k, HEX);
+    logSerial(" press: ");
+    logSerial(k, HEX);
+    logLn();
 
     if (k == 0xae) {
         // Shift key
@@ -121,8 +123,9 @@ size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
 size_t Keyboard_::release(uint8_t k, uint8_t shiftHold, uint8_t alt)
 {
     k = pgm_read_byte(_asciimap + k);
-    Serial.print(" release: ");
-    Serial.println(k, HEX);
+    logSerial(" release: ");
+    logSerial(k, HEX);
+    logLn();
 
     if (k == 0xb3) {
         // AllUp: Shift Up, CTRL Up
