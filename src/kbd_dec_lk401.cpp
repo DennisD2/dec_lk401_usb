@@ -48,6 +48,7 @@
 /* state variables */
 boolean alt_emul = false; /* emulate missing ALT key */
 boolean shift_hold = false; /* reflects state of Shift Hold key */
+boolean ctrl = false; /* CTRL key state */
 unsigned char key_click_volume = 0;
 unsigned char lastCode = 0; /* Last character sent */
 
@@ -116,10 +117,12 @@ void loop() {
         case LK401_CODE_CTRL:
             // CTRL key is pressed
             Keyboard.press(inCode, false, false);
+            ctrl = true;
             break;
         case LK401_CODE_ALL_UPS:
             // shift and/or CTRL key is released
             Keyboard.release(inCode, false, false);
+            ctrl = false;
             break;
 
         case LK401_CODE_GRUPPENUMSCH:
@@ -146,9 +149,9 @@ void loop() {
 
         default:
             lastCode = inCode;
-            Keyboard.press(inCode, false, false);
+            Keyboard.press(inCode, false, false, ctrl);
             delay(20);
-            Keyboard.release(inCode, false, false);
+            Keyboard.release(inCode, false, false, ctrl);
 
             if (alt_emul) {
                 alt_emul=false;
