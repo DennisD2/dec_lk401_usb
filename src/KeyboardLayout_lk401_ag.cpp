@@ -94,11 +94,11 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         UNUSED,
         UNUSED,
         UNUSED,
-        0x00, // Hold screen
-        0x00, // Print screen
-        0x00, // Set-Up
+        0x3a, // F1 Hold screen
+        0x3b, // F2 Print screen
+        0x3c, // F3 Set-Up
         0x3d, // F4
-        0x00, // Break
+        0x3e, // F5 Break
         RES,
         RES,
         RES,
@@ -108,11 +108,11 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         RES,
         RES,
         RES,
-        0x00, // Interrupt
-        0x00, // Resume
-        0x00, // Cancel
-        0x00, // Main screen
-        0x00, // Exit
+        0x3f, // F6 Interrupt
+        0x40, // F7 Resume
+        0x41, // F8 Cancel
+        0x42, // F9 Main screen
+        0x43, // F10 Exit
         RES,
         RES,
         RES,
@@ -124,7 +124,7 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         0x44, // F11
         0x45, // F12
         0x68, // F13
-        0x00, // Addtnl Options
+        0x69, // F14 Addtnl Options
         RES,
         RES,
         RES,
