@@ -19,11 +19,14 @@ scroll up, scroll down, tab). Also with the numeric key pad.
 Special behaviour is:
 * Bottom most left ```Zusatzfunktion``` key maps to ```AltGr``` (Alt Right). 
   I need to do this because the keyboard has no ```Alt``` or ```AltGr``` keys at all.
-  You need to press and release that key first, then enter the character key you want .
-  So for the ```@``` character, press and release ```Zusatzfunktion```, then press the ```q``` key.
-  To get the character that is written on top right of the key (like ```£``` for key ```3```), 
-  press ```Shift```+```3```. The "ALT Emulation" state is reflected by setting the otherwise
-  used Lock LED to on.
+  You need to press and release that key first, then enter the character key you want.
+  Examples:
+  * For the ```@``` character, press and release ```Zusatzfunktion```, then press the ```q``` key.
+  * To get the character that is written on top right of the key (like ```£``` for key ```3```), 
+  press and release ```Zusatzfunktion```, then press ```Shift```+```3```. 
+  
+  The "ALT Emulation" state is reflected by setting the otherwise
+  used Lock LED to on, to give some visual feedback.
 * "Ausführen" maps to ```ESC```
 * Numeric key function keys ```PF1```-```PF4``` map to function keys 
  ```F21```-```F24```
