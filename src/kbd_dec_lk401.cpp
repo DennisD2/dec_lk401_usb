@@ -48,8 +48,8 @@
 /* state variables */
 boolean alt_emul = false; /* emulate missing ALT key */
 boolean shift_hold = false; /* reflects state of Shift Hold key */
-unsigned char key_click_volume = 0;
-unsigned char lastCode = 0; /* Last character sent */
+int8_t key_click_volume = 0; /* key click volume, values see LK401_VOLUME_* defines */
+unsigned char lastCode = 0; /* last character sent */
 
 void led(uint8_t id, uint8_t on) {
     if (on) {
@@ -124,8 +124,12 @@ void loop() {
 
         case LK401_CODE_GRUPPENUMSCH:
             // emulate ALT key
-            alt_emul = true;
-            Keyboard.press(inCode, false, true);
+            alt_emul = !alt_emul;
+            if (alt_emul) {
+                Keyboard.press(inCode, false, true);
+            } else {
+                Keyboard.release(inCode, false, true);
+            }
             led(LK401_LED_LOCK, alt_emul);
             break;
 
@@ -138,10 +142,14 @@ void loop() {
 
         case LK401_CODE_F20:
             // we use F20 to control keyboard click audio level
-            keyClickVolume(key_click_volume);
-            if (++key_click_volume == 9) {
-                key_click_volume = 0;
+            if (--key_click_volume == -1) {
+                key_click_volume = LK401_VOLUME_0;
+                // "ACK" volume zero with LED
+                led(LK401_LED_LOCK, true);
+                delay(200);
+                led(LK401_LED_LOCK, false);
             }
+            keyClickVolume(key_click_volume);
             break;
 
         default:
@@ -151,6 +159,7 @@ void loop() {
             Keyboard.release(inCode, false, false);
 
             if (alt_emul) {
+                // ALT emulation holds only one key press
                 alt_emul=false;
                 Keyboard.release(inCode, false, true);
                 led(LK401_LED_LOCK, alt_emul);

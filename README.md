@@ -30,7 +30,8 @@ Special behaviour is:
 * ```Selektieren``` maps map to ```Go to End```
 * ```Hilfe``` maps to ```Menu``` key
 * Function key ```F20``` controls the key click volume. Default is off. Pressing 
-  the key loops through the available 7 volume levels.
+  the key loops through the available 7 volume levels. The volume 0 (volume off)
+  is feedbacked by flashing the "lock" LED.
 * At least on my german version of the keyboard, all "Zusatz*" keys
   except the bottom left one do not produce any key codes, this
   is burned into hardware or keyboard firmware and cannot be changed.
