@@ -26,7 +26,7 @@ Special behaviour is:
   press and release ```Zusatzfunktion```, then press ```Shift```+```3```. 
   
   The "ALT Emulation" state is reflected by setting the otherwise
-  used Lock LED to on, to give some visual feedback.
+  used Lock LED to On, to give some visual feedback.
 * "Ausführen" maps to ```ESC```
 * Numeric key function keys ```PF1```-```PF4``` map to function keys 
  ```F21```-```F24```
@@ -41,7 +41,7 @@ Special behaviour is:
   is burned into hardware or keyboard firmware and cannot be changed.
 
 ## Required hardware
-The LK401 is connected via a Arduino Micro, which
+The LK401 is connected via an Arduino Micro, which
 owns a USB connector. The Arduino Micro appears to
 the PC as a standard USB keyboard.
 
