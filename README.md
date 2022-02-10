@@ -23,10 +23,11 @@ Special behaviour is:
   Examples:
   * For the ```@``` character, press and release ```Zusatzfunktion```, then press the ```q``` key.
   * To get the character that is written on top right of the key (like ```£``` for key ```3```), 
-  press and release ```Zusatzfunktion```, then press ```Shift```+```3```. 
+  press and release ```Zusatzfunktion```, then press ```Shift```+```3```.
+  * To leave ```AltGr``` mode, just press ```Zusatzfunktion``` key again
   
   The "ALT Emulation" state is reflected by setting the otherwise
-  used Lock LED to On, to give some visual feedback.
+  unused Lock LED to On, to give some visual feedback.
 * "Ausführen" maps to ```ESC```
 * Numeric key function keys ```PF1```-```PF4``` map to function keys 
  ```F21```-```F24```
@@ -49,7 +50,9 @@ More information on the approach is [here](http://spurtikus.de/posts/electronics
 
 ## How to build
 This project was created with [CLion](https://www.jetbrains.com/clion/).
-It is a cmake based project and uses [platform.io](https://platformio.org/)
+It leaves the well known Arduino IDE approach, where a single *.ino Sketch file is used
+and uses standard C++ source and header files.
+It is a CMake based project and uses [platform.io](https://platformio.org/)
 
 To install platform.io together with CLion, see here
 https://blog.jetbrains.com/clion/2020/08/arduino-from-hobby-to-prof-p1/
