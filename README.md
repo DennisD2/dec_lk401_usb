@@ -46,7 +46,7 @@ The LK401 is connected via an Arduino Micro, which
 owns a USB connector. The Arduino Micro appears to
 the PC as a standard USB keyboard.
 
-More information on the approach is [here](http://spurtikus.de/posts/electronics-usb-keyboard/).
+More information on the approach is [here](http://spurtikus.de/posts/electronics/diy-usb-keyboard/).
 
 ## How to build
 This project was created with [CLion](https://www.jetbrains.com/clion/).
