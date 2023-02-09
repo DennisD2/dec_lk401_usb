@@ -80,13 +80,13 @@ void setup() {
     delay(100);
 
     // "Greeting" with LEDs, then switch LEDs off
-    led(LK401_LED_SHIFT, true);
-    delay(200);
     led(LK401_LED_LOCK, true);
     delay(200);
-    led(LK401_LED_SHIFT, false);
+    led(LK401_LED_SHIFT, true);
     delay(200);
     led(LK401_LED_LOCK, false);
+    delay(200);
+    led(LK401_LED_SHIFT, false);
 
     // Set keyclick volume to off, keeping my nerves healthy
     keyClickVolume(LK401_VOLUME_0);
