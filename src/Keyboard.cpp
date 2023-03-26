@@ -82,37 +82,31 @@ size_t Keyboard_::press(uint8_t k, uint8_t shiftHold) {
     logSerial(k, DEC);
     logLn();
 
-    if (k == 0xae) {
-        // Shift key
+    if (k == LK401_CODE_SHIFT_LEFT) {
         _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f);
         k=0x00;
     }
-    if (k == 0xaf) {
-        // CTRL key
+    if (k == LK401_CODE_SHIFT_RIGHT) {
+        _keyReport.modifiers |= (KEY_RIGHT_SHIFT-0x7f);
+        k=0x00;
+    }
+    if (k == LK401_CODE_CTRL) {
         _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f);
         k=0x00;
     }
-    if (k == 0xb2) {
-        // Alt Function Right key
+    if (k == LK401_CODE_ALT_FUNCTION_RIGHT) {
         //_keyReport.modifiers |= (KEY_LEFT_ALT-0x7f) ;
         _keyReport.modifiers |= 0x40;   // AltGr = right Alt
         k=0x00;
     }
 
-    if (k == 0xb0) {
-        // Shift Lock key
+    if (k == LK401_CODE_SHIFT_HOLD) {
         if (shiftHold) {
             _keyReport.modifiers |= (KEY_LEFT_SHIFT-0x7f);	// the left shift modifier
         } else {
             _keyReport.modifiers &= ~(0x02); // the left shift modifier
         };
         k=0x00;
-    }
-    if (k == 0x6e) {
-        // F19 used for CTRL+ALT+DEL
-        _keyReport.modifiers = (KEY_LEFT_CTRL-0x7f); // the left ctrl modifier
-        _keyReport.modifiers |= (KEY_LEFT_ALT-0x7f) ; // left ALT modifier
-        k=0x4c; // DEL
     }
 
     _keyReport.keys[0] = k;
@@ -132,17 +126,13 @@ size_t Keyboard_::release(uint8_t k, uint8_t shiftHold)
     logSerial(k, DEC);
     logLn();
 
-    if (k == 0xb3) {
+    if (k == LK401_CODE_ALL_UPS) {
         // All Up: Shift Up, CTRL Up, AltGr Up
         _keyReport.modifiers &= ~(0x02); // the left shift modifier
         _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
         _keyReport.modifiers &= ~(0x40); // AltGr = right Alt
     }
-    if (k == 0x6e) {
-        // F19 used for CTRL+ALT+DEL
-        _keyReport.modifiers = 0x00;
-    }
-    if (k == 0xb2) {
+    if (k == LK401_CODE_ALT_FUNCTION_RIGHT) {
         // Alt Function Right key
         //_keyReport.modifiers &= ~(KEY_LEFT_ALT); // AltGr = right Alt
         _keyReport.modifiers &= ~(0x40); // AltGr = right Alt

@@ -62,8 +62,11 @@ cat /dev/ttyACM0
 
 Replace ```/dev/ACM0``` with the correct device for your environment.
 
-## Further reading and todos
+## Todos
+* From the four keys Compose Character Left+Right, Alt Function Left+Right, currently only Alt Function Right is used. 
+  Add code for other keys too.
 
+## Further reading and todos
 * USB HUT Documentation, see page 53 for keyboard codes [Link](./doc/Hut1_12v2.pdf)
 * (Digital DEC documentation for keyboard *VCB02 Video Subsystem Technical Manual* is >120MB PDF, too large to put it 
   here)

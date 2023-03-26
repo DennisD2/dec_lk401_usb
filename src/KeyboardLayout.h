@@ -64,3 +64,41 @@
 #define ISO_KEY 0x64
 #define ISO_REPLACEMENT 0x32
 
+// Defines from LK401 keyboard
+#define LK401_CODE_METRONOME 0xb4
+#define LK401_CODE_SHIFT_LEFT 0xae
+#define LK401_CODE_SHIFT_RIGHT 0xab
+#define LK401_CODE_CTRL 0xaf
+#define LK401_CODE_ALL_UPS 0xb3
+#define LK401_CODE_SHIFT_HOLD 0xb0
+#define LK401_CODE_F20 0x83
+
+/* 'Gruppenumschaltung' */
+#define LK401_CODE_COMPOSE_LEFT 0xb1
+#define LK401_CODE_COMPOSE_RIGHT 0xad
+/* Zusatzfunktion */
+#define LK401_CODE_ALT_FUNCTION_LEFT 0xac
+#define LK401_CODE_ALT_FUNCTION_RIGHT 0xb2
+
+#define LK401_LED_SHIFT 0x4
+#define LK401_LED_LOCK 0x8
+
+#define LK401_CMD_LED_OFF 0x11
+#define LK401_CMD_LED_ON 0x13
+#define LK401_CMD_KEY_CLICK_ON 0x1b
+#define LK401_CMD_KEY_CLICK_OFF 0x99
+
+// Enable 401 mode, gives access to LAlt, RAlt, RCompose and RShift.
+// See Linux driver module lkkbd.c
+#define LK401_CMD_ENABLE_LK401 0xe9
+
+// _0=off, _7=highest,
+#define LK401_VOLUME_0 0x8
+#define LK401_VOLUME_1 0x7
+#define LK401_VOLUME_2 0x6
+#define LK401_VOLUME_3 0x5
+#define LK401_VOLUME_4 0x4
+#define LK401_VOLUME_5 0x3
+#define LK401_VOLUME_6 0x2
+#define LK401_VOLUME_7 0x1
+#define LK401_VOLUME_8 0x0
