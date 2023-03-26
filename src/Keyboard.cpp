@@ -2,6 +2,28 @@
   Keyboard.cpp
 
   Based on Arduino Library code
+
+  For the modifier codes, I found not much info.
+  This here:
+  Also both the left and right hand modifiers appear to be mapped:
+
+\arduino-1.0.1\hardware\teensy\cores\teensy\Keylayouts.h:
+
+#define MODIFIERKEY_CTRL ( 0x01 | 0x8000 )
+#define MODIFIERKEY_SHIFT ( 0x02 | 0x8000 )
+#define MODIFIERKEY_ALT ( 0x04 | 0x8000 )
+#define MODIFIERKEY_GUI ( 0x08 | 0x8000 )
+#define MODIFIERKEY_LEFT_CTRL ( 0x01 | 0x8000 )
+#define MODIFIERKEY_LEFT_SHIFT ( 0x02 | 0x8000 )
+#define MODIFIERKEY_LEFT_ALT ( 0x04 | 0x8000 )
+#define MODIFIERKEY_LEFT_GUI ( 0x08 | 0x8000 )
+#define MODIFIERKEY_RIGHT_CTRL ( 0x10 | 0x8000 )
+#define MODIFIERKEY_RIGHT_SHIFT ( 0x20 | 0x8000 )
+#define MODIFIERKEY_RIGHT_ALT ( 0x40 | 0x8000 )
+#define MODIFIERKEY_RIGHT_GUI ( 0x80 | 0x8000 )
+
+ I found in some forum for teensy hardware
+ https://forum.pjrc.com/threads/1269-Observations-on-Teensy-USB-keyboard-support
 */
 
 #include "Keyboard.h"
@@ -94,6 +116,11 @@ size_t Keyboard_::press(uint8_t k, uint8_t shiftHold) {
         _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f);
         k=0x00;
     }
+    if (k == LK401_CODE_ALT_FUNCTION_LEFT) {
+        //_keyReport.modifiers |= (KEY_LEFT_ALT-0x7f) ;
+        _keyReport.modifiers |= 0x04;   // Left Alt
+        k=0x00;
+    }
     if (k == LK401_CODE_ALT_FUNCTION_RIGHT) {
         //_keyReport.modifiers |= (KEY_LEFT_ALT-0x7f) ;
         _keyReport.modifiers |= 0x40;   // AltGr = right Alt
@@ -129,8 +156,11 @@ size_t Keyboard_::release(uint8_t k, uint8_t shiftHold)
     if (k == LK401_CODE_ALL_UPS) {
         // All Up: Shift Up, CTRL Up, AltGr Up
         _keyReport.modifiers &= ~(0x02); // the left shift modifier
+        _keyReport.modifiers &= ~(0x20); // the right shift modifier
         _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
+        _keyReport.modifiers &= ~(KEY_RIGHT_CTRL-0x7f);	// the right ctrl modifier
         _keyReport.modifiers &= ~(0x40); // AltGr = right Alt
+        _keyReport.modifiers &= ~(0x4); // Left Alt
     }
 
     // release key

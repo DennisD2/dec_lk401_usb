@@ -53,7 +53,8 @@ void setup() {
     Serial1.begin(4800, SERIAL_8N1);
 
     delay(200);
-    logSerial("DEC LK401 to USB"); logLn();
+    logSerial("DEC LK401 to USB");
+    logLn();
     delay(100);
 
     // "Greeting" with LEDs, then switch LEDs off
