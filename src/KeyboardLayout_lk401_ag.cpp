@@ -179,14 +179,14 @@ extern const uint8_t Keycodes_dec_lk401_AG[256] PROGMEM = {
         0x4f, // right arrow
         0x51, // down arrow
         0x52, // up arrow
-        RES,
-        RES,
-        RES,
-        0xae, // Shift
+        0xae, // Shift Right NEW - handled like Shift Left
+        0xac, // ALT FUNC Left NEW
+        0xad,  // Compose Character Right NEW
+        0xae, // Shift Left
         0xaf, // Ctrl
         0xb0, // Shift Lock
-        0x00, // Compose
-        RES,
+        0xb1, // Compose Character Left NEW
+        0xb2,  // ALT FUNC Right NEW
         0xb3, // All Ups
         0x00, // Metronome
         0x00, // Output error

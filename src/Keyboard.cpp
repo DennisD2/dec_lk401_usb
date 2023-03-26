@@ -74,7 +74,7 @@ uint8_t USBPutChar(uint8_t c);
 // to the persistent key report and sends the report.  Because of the way
 // USB HID works, the host acts like the key remains pressed until we
 // call release(), releaseAll(), or otherwise clear the report and resend.
-size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
+size_t Keyboard_::press(uint8_t k, uint8_t shiftHold) {
     k = pgm_read_byte(_asciimap + k);
     logSerial(" press: 0x");
     logSerial(k, HEX);
@@ -92,6 +92,13 @@ size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
         _keyReport.modifiers |= (KEY_LEFT_CTRL-0x7f);
         k=0x00;
     }
+    if (k == 0xb2) {
+        // Alt Function Right key
+        //_keyReport.modifiers |= (KEY_LEFT_ALT-0x7f) ;
+        _keyReport.modifiers |= 0x40;   // AltGr = right Alt
+        k=0x00;
+    }
+
     if (k == 0xb0) {
         // Shift Lock key
         if (shiftHold) {
@@ -108,12 +115,6 @@ size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
         k=0x4c; // DEL
     }
 
-    if (alt) {
-        //_keyReport.modifiers |= (KEY_RIGHT_ALT-0x7f) ;
-        _keyReport.modifiers |= 0x40;   // AltGr = right Alt
-        k=0x00;
-    }
-
     _keyReport.keys[0] = k;
 	sendReport(&_keyReport);
 	return 1;
@@ -122,7 +123,7 @@ size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
 // release() takes the specified key out of the persistent key report and
 // sends the report.  This tells the OS the key is no longer pressed and that
 // it shouldn't be repeated any more.
-size_t Keyboard_::release(uint8_t k, uint8_t shiftHold, uint8_t alt)
+size_t Keyboard_::release(uint8_t k, uint8_t shiftHold)
 {
     k = pgm_read_byte(_asciimap + k);
     logSerial(" release: ");
@@ -132,7 +133,7 @@ size_t Keyboard_::release(uint8_t k, uint8_t shiftHold, uint8_t alt)
     logLn();
 
     if (k == 0xb3) {
-        // AllUp: Shift Up, CTRL Up
+        // All Up: Shift Up, CTRL Up, AltGr Up
         _keyReport.modifiers &= ~(0x02); // the left shift modifier
         _keyReport.modifiers &= ~(KEY_LEFT_CTRL-0x7f);	// the left ctrl modifier
         _keyReport.modifiers &= ~(0x40); // AltGr = right Alt
@@ -141,7 +142,9 @@ size_t Keyboard_::release(uint8_t k, uint8_t shiftHold, uint8_t alt)
         // F19 used for CTRL+ALT+DEL
         _keyReport.modifiers = 0x00;
     }
-    if (alt) {
+    if (k == 0xb2) {
+        // Alt Function Right key
+        //_keyReport.modifiers &= ~(KEY_LEFT_ALT); // AltGr = right Alt
         _keyReport.modifiers &= ~(0x40); // AltGr = right Alt
     }
 

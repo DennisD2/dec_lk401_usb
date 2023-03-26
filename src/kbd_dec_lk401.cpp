@@ -123,29 +123,32 @@ void loop() {
         case LK401_CODE_METRONOME:
             // 'metronome code' - last key is continuously pressed
             // we just resend last keycode
-            Keyboard.press(lastCode, false, false);
+            Keyboard.press(lastCode, false);
             break;
 
         case LK401_CODE_SHIFT:
             // shift key is pressed
-            Keyboard.press(inCode, false, false);
+            Keyboard.press(inCode, false);
             break;
         case LK401_CODE_CTRL:
             // CTRL key is pressed
-            Keyboard.press(inCode, false, false);
+            Keyboard.press(inCode, false);
+            break;
+        case LK401_CODE_ALT_FUNCTION_LEFT:
+            Keyboard.press(inCode, false);
             break;
         case LK401_CODE_ALT_FUNCTION_RIGHT:
-            Keyboard.press(inCode, false, true);
+            Keyboard.press(inCode, false);
             break;
         case LK401_CODE_ALL_UPS:
             // shift and/or CTRL key is released
-            Keyboard.release(inCode, false, false);
+            Keyboard.release(inCode, false);
             break;
 
         case LK401_CODE_SHIFT_HOLD:
             // shift hold key is pressed
             shift_hold = !shift_hold;
-            Keyboard.press(inCode, shift_hold, false);
+            Keyboard.press(inCode, shift_hold);
             led(LK401_LED_SHIFT, shift_hold);
             break;
 
@@ -163,9 +166,9 @@ void loop() {
 
         default:
             lastCode = inCode;
-            Keyboard.press(inCode, false, false);
+            Keyboard.press(inCode, false);
             delay(20);
-            Keyboard.release(inCode, false, false);
+            Keyboard.release(inCode, false);
             break;
     }
 
