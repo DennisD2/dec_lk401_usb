@@ -6,7 +6,7 @@
 #ifndef KEYBOARD_LOG_H
 #define KEYBOARD_LOG_H
 
-//#define DO_LOGGING
+#define DO_LOGGING
 
 void logSerialInit(unsigned long rate);
 void logSerial(const String& s);

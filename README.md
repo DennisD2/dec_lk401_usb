@@ -80,4 +80,5 @@ Replace ```/dev/ACM0``` with the correct device for your environment.
 * USB HUT Documentation, see page 53 for keyboard codes [Link](./doc/Hut1_12v2.pdf)
 * (Digital DEC documentation for keyboard *VCB02 Video Subsystem Technical Manual*
   is >120MB PDF, too large to put it here)
+* Linux Keyboard Driver file for LK401 [Link](doc/lkkbd.c.txt)
 * How to send CTRL+ALT+DEL: https://forum.arduino.cc/t/this-is-how-to-send-control-alt-delete-with-virtual-usb-keyboard-library/146305/2

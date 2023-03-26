@@ -76,8 +76,10 @@ uint8_t USBPutChar(uint8_t c);
 // call release(), releaseAll(), or otherwise clear the report and resend.
 size_t Keyboard_::press(uint8_t k, uint8_t shiftHold, uint8_t alt) {
     k = pgm_read_byte(_asciimap + k);
-    logSerial(" press: ");
+    logSerial(" press: 0x");
     logSerial(k, HEX);
+    logSerial( ", ");
+    logSerial(k, DEC);
     logLn();
 
     if (k == 0xae) {
@@ -125,6 +127,8 @@ size_t Keyboard_::release(uint8_t k, uint8_t shiftHold, uint8_t alt)
     k = pgm_read_byte(_asciimap + k);
     logSerial(" release: ");
     logSerial(k, HEX);
+    logSerial( ", ");
+    logSerial(k, DEC);
     logLn();
 
     if (k == 0xb3) {

@@ -23,8 +23,13 @@
 #define LK401_CODE_ALL_UPS 0xb3
 #define LK401_CODE_SHIFT_HOLD 0xb0
 #define LK401_CODE_F20 0x83
+
 /* 'Gruppenumschaltung' */
-#define LK401_CODE_GRUPPENUMSCH 0xb1
+#define LK401_CODE_COMPOSE_LEFT 0xb1
+#define LK401_CODE_COMPOSE_RIGHT 0xad
+/* Zusatzfunktion */
+#define LK401_CODE_ALT_FUNCTION_LEFT 0xac
+#define LK401_CODE_ALT_FUNCTION_RIGHT 0xb2
 
 #define LK401_LED_SHIFT 0x4
 #define LK401_LED_LOCK 0x8
@@ -33,6 +38,10 @@
 #define LK401_CMD_LED_ON 0x13
 #define LK401_CMD_KEY_CLICK_ON 0x1b
 #define LK401_CMD_KEY_CLICK_OFF 0x99
+
+// Enable 401 mode, gives access to LAlt, RAlt, RCompose and RShift.
+// See Linux driver module lkkbd.c
+#define LK401_CMD_ENABLE_LK401 0xe9
 
 // _0=off, _7=highest,
 #define LK401_VOLUME_0 0x8
@@ -46,10 +55,11 @@
 #define LK401_VOLUME_8 0x0
 
 /* state variables */
-boolean alt_emul = false; /* emulate missing ALT key */
 boolean shift_hold = false; /* reflects state of Shift Hold key */
 int8_t key_click_volume = 0; /* key click volume, values see LK401_VOLUME_* defines */
 unsigned char lastCode = 0; /* last character sent */
+
+void enable401Mode();
 
 void led(uint8_t id, uint8_t on) {
     if (on) {
@@ -67,6 +77,10 @@ void keyClickVolume(uint8_t volume) {
         Serial1.write(LK401_CMD_KEY_CLICK_ON);
         Serial1.write(0x80 | volume);
     }
+}
+
+void enable401Mode() {
+    Serial1.write(LK401_CMD_ENABLE_LK401);
 }
 
 void setup() {
@@ -90,6 +104,9 @@ void setup() {
 
     // Set keyclick volume to off, keeping my nerves healthy
     keyClickVolume(LK401_VOLUME_0);
+
+    // Enable 401 mode
+    enable401Mode();
 
     Keyboard.releaseAll();
 }
@@ -122,15 +139,8 @@ void loop() {
             Keyboard.release(inCode, false, false);
             break;
 
-        case LK401_CODE_GRUPPENUMSCH:
-            // emulate ALT key
-            alt_emul = !alt_emul;
-            if (alt_emul) {
-                Keyboard.press(inCode, false, true);
-            } else {
-                Keyboard.release(inCode, false, true);
-            }
-            led(LK401_LED_LOCK, alt_emul);
+        case LK401_CODE_ALT_FUNCTION_RIGHT:
+            Keyboard.press(inCode, false, true);
             break;
 
         case LK401_CODE_SHIFT_HOLD:
@@ -157,21 +167,15 @@ void loop() {
             Keyboard.press(inCode, false, false);
             delay(20);
             Keyboard.release(inCode, false, false);
-
-            if (alt_emul) {
-                // ALT emulation holds only one key press
-                alt_emul=false;
-                Keyboard.release(inCode, false, true);
-                led(LK401_LED_LOCK, alt_emul);
-            }
             break;
     }
 
-    logSerial("LK401: ");
+    logSerial("LK401: 0x");
     logSerial(inCode, HEX);
-    logSerial(", SHA=");
+    logSerial(", ");
+    logSerial(inCode, DEC);
+    logSerial(", SH=");
     logSerial(shift_hold);
-    logSerial(alt_emul);
     logLn();
 }
 
