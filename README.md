@@ -20,7 +20,7 @@ Alternate Left has the common known "ALT" function.
 
 Special behaviour is:
 
-* "Ausführen" maps to ```ESC```
+* "Ausführen" and also "Left Compose Character" maps to ```ESC```
 * Numeric key function keys ```PF1```-```PF4``` map to function keys
   ```F21```-```F24```
 * ```Suchen``` key maps to ```Go to Pos1``` function
