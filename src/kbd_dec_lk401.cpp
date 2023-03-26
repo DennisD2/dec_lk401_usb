@@ -134,13 +134,12 @@ void loop() {
             // CTRL key is pressed
             Keyboard.press(inCode, false, false);
             break;
+        case LK401_CODE_ALT_FUNCTION_RIGHT:
+            Keyboard.press(inCode, false, true);
+            break;
         case LK401_CODE_ALL_UPS:
             // shift and/or CTRL key is released
             Keyboard.release(inCode, false, false);
-            break;
-
-        case LK401_CODE_ALT_FUNCTION_RIGHT:
-            Keyboard.press(inCode, false, true);
             break;
 
         case LK401_CODE_SHIFT_HOLD:
